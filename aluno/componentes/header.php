@@ -1,4 +1,3 @@
-<head><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.php">Home</a>
@@ -25,10 +24,8 @@
         <form class="form-inline my-2 my-lg-0" method="post">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="logout">Deslogar</button>
         </form>
-        
     </nav>
 </header>
-</head>
 <?php
 // Inclua este trecho de código no início do seu arquivo PHP para verificar se o botão foi pressionado
 if(isset($_POST['logout'])) {

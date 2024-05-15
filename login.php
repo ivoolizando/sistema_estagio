@@ -1,23 +1,43 @@
 <?php
 include("conexao.php");
-
+session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $myemail = mysqli_real_escape_string($conn, $_POST['Email']);
    $mypassword = mysqli_real_escape_string($conn, $_POST['Senha']);
-
-   $sql = "SELECT id FROM Aluno WHERE Email = '$myemail' and Senha = '$mypassword'";
+   $switch = mysqli_real_escape_string($conn, $_POST['switch']);
+   if ($switch == 0) {
+      $sql = "SELECT id FROM Aluno WHERE Email = '$myemail' and Senha = '$mypassword'";
+   } else if ($switch == 1) {
+      $sql = "SELECT id FROM Empresa WHERE Email = '$myemail' and Senha = '$mypassword'";
+   }
    $result = mysqli_query($conn, $sql);
    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
    $count = mysqli_num_rows($result);
 
    // Se o resultado for 1, o usuário e senha estão corretos
+
    if ($count == 1) {
-      header("location: welcome.php");
+      $id = $row['id']; // Obtenha o id do usuário a partir da consulta ao banco de dados
+      $email = $myemail; // Você já tem o email do formulário de login
+   
+      // Armazene os dados na sessão
+      $_SESSION['usuario'] = $usuario;
+      $_SESSION['id'] = $id;
+      $_SESSION['email'] = $email;
+   
+      if ($switch == 0) {
+         header('Location: aluno/index.php');
+         exit();
+      } elseif ($switch == 1) {
+         header('Location: empresa/index.php');
+         exit();
+      }
    } else {
-      $error = "Email ou senha inválidos!";
+      $_SESSION['nao_autenticado'] = true;
+      header('Location: index.php');
+      exit();
    }
-}
+}   
 ?>
 
 <html>
@@ -40,8 +60,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          <div style="margin:30px">
 
             <form action="" method="post">
-               <label>E-mail  </label><input type="text" name="Email" class="box" /><br /><br />
-               <label>Senha  </label><input type="password" name="Senha" class="box" /><br /><br />
+               <input type="hidden" name="switch" id="switch" value="" />
+               <label>E-mail </label><input type="text" name="Email" class="box" /><br /><br />
+               <label>Senha </label><input type="password" name="Senha" class="box" /><br /><br />
                <input type="submit" value=" Enviar " /><br />
                <a id="cadastro" href="cadastroAluno.php">Cadastrar-se</a>
 
@@ -65,17 +86,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          document.getElementById('aluno').classList.remove('btn-success');
          document.getElementById('empresa').classList.remove('btn-success');
          document.getElementById(id).classList.add('btn-success');
-         document.getElementById('cadastro').href = 'cadastroAluno.php';
-         if (id == "empresa") {
+
+         if (id == "aluno") {
+            document.getElementById('switch').value = "0";
+            document.getElementById('cadastro').href = 'cadastroAluno.php';
+         } else if (id == "empresa") {
+            document.getElementById('switch').value = "1";
             document.getElementById('cadastro').href = 'cadastroEmpresa.php';
          }
-         elseif(id == "aluno");
-         {
-            document.getElementById('cadastro').href = 'cadastroAluno.php';
-   
-         }
       }
-      </script>
+   </script>
 
 </body>
 
