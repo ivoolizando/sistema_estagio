@@ -1,6 +1,22 @@
 <?php
 include("../conexao.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $vaga_id = $_POST['vaga_id'];
+    $aluno_id = $_POST['aluno_id']; // Você precisa obter o id do aluno logado
+
+    $sql = "INSERT INTO Solicitacao (vaga_id, aluno_id) VALUES (?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $vaga_id, $aluno_id);
+
+    if ($stmt->execute()) {
+        echo "Solicitação de vaga enviada com sucesso!";
+    } else {
+        echo "Erro: " . $stmt->error;
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +38,11 @@ include("componentes/header.php");
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';
-        echo '<button class="btn btn-primary float-right">Candidatar-se</button></li>';
+        echo '<form method="POST" action="vagasolicitacao.php">';
+        echo '<input type="hidden" name="vaga_id" value="' . $row['id'] . '">';
+        echo '<input type="hidden" name="aluno_id" value="1">'; // Substitua 1 pelo id do aluno logado
+        echo '<button type="submit" class="btn btn-primary float-right">Candidatar-se</button>';
+        echo '</form></li>';
     }
     ?>
     </ul>
