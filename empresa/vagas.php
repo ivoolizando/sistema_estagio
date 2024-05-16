@@ -37,6 +37,17 @@ include("componentes/header.php");
       TEXT-ALIGN: center;
     }
 
+    .list-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;  
+      
+    }
+
+    .list-group-item{
+      width: 600px;
+    }
+
     .content {
       background-color: #f8f8f8;
       margin: 0 auto;
@@ -105,16 +116,7 @@ include("componentes/header.php");
   <body>
     <br>
     <h2>VAGAS EXISTENTES</h2>
-    <div class="content"></div>
     <ul class="list-group">
-      <?php
-      /*
-      $sql = "SELECT Titulo from Vaga where EmpresaID = " . $_SESSION["id"] . ";";
-      $result = mysqli_query($conn, $sql);
-      while ($row = mysqli_fetch_assoc($result)) {
-        echo '<li class="list-group-item">' . $row['Titulo'] . '</li>';
-      }*/
-      ?>
 
       <ul class="list-group">
         <?php
@@ -122,8 +124,8 @@ include("componentes/header.php");
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
           echo '<li class="list-group-item">';
-          echo '<div>' . $row['Titulo'] . '</div>';
-          echo '<div>' . $row['Descricao'] . '</div>';
+          echo '<div>' ."<h5>Título</h5>". $row['Titulo'] . '</div>';
+          echo '<div>'."<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
           echo '<form method="POST" action="excluir_vaga.php" style="display: inline; margin-right: 10px;">';
           echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
           echo '<button type="submit">Excluir</button>';

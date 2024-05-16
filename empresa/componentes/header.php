@@ -14,7 +14,7 @@
                     <a class="nav-link" href="#">Cursos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Empresas</a>
+                    <a class="nav-link" href="#">Solicitações</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Relatórios</a>
