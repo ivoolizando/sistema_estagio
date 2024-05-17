@@ -130,11 +130,15 @@ include("componentes/header.php");
           echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
           echo '<button type="submit">Excluir</button>';
           echo '</form>';
-          echo '<form method="POST" action="editar_vaga_form.php" style="display: inline;">';
+          echo '<form method="POST" action="editar_vaga_form.php" style="display: inline; margin-right: 10px;">';
           echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
           echo '<input type="hidden" name="Titulo" value="' . $row['Titulo'] . '">';
           echo '<input type="hidden" name="Descricao" value="' . $row['Descricao'] . '">';
           echo '<button type="submit">Editar</button>';
+          echo '</form>';
+          echo '<form method="POST" action="solicitacoes.php" style="display: inline; margin-right: 10px;">';
+          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
+          echo '<button type="submit">Ver Solicitações</button>';
           echo '</form>';
           echo '</li>';
         }

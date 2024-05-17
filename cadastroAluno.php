@@ -10,15 +10,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $confirmarsenha = $_POST["confirmarsenha"];
   $endereco = $_POST["endereco"];
   $estado = $_POST["estado"];
+  $cidade = $_POST["cidade"];
   $bairro = $_POST["bairro"];
+  $curriculo = $_FILES["cv"]["name"];
+
+  // Mover o arquivo enviado para o diretório desejado
+  $target_dir = "uploads/";
+
+  // Verificar se a pasta existe, se não, criar a pasta
+  if (!file_exists($target_dir)) {
+    mkdir($target_dir, 0777, true);
+  }
+
+  // Obter a extensão do arquivo
+  $file_extension = pathinfo($_FILES["cv"]["name"], PATHINFO_EXTENSION);
+
+  // Criar o nome do arquivo com o e-mail do aluno
+  $new_filename = $email . "." . $file_extension;
+
+  $target_file = $target_dir . $new_filename;
+  move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file);
+
+
 
   if ($senha == $confirmarsenha) {
 
-    $sql = "INSERT INTO Aluno (nome, telefone, email, senha, endereco, estado, bairro)
-  VALUES ('$nome', '$telefone', '$email','$senha','$endereco', '$estado', '$bairro')";
+    $sql = "INSERT INTO Aluno (nome, telefone, email, senha, endereco, estado, cidade, bairro, curriculo)
+  VALUES ('$nome', '$telefone', '$email','$senha','$endereco', '$estado', '$cidade', '$bairro', '$target_file')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "<script type='text/javascript'>
+      echo "<script type='text/javascript'>
                 alert('Cadastro realizado com sucesso!');
                 window.location.href = 'index.php';
               </script>";
@@ -112,12 +133,16 @@ $conn->close();
     <br>
     Estado: <input type="text" name="estado">
     <br>
+    Cidade: <input type="text" name="cidade">
+    <br>
     Bairro: <input type="text" name="bairro">
+    <br>
+    Currículo/CV: <input type="file" name="cv">
     <br>
     <input --bs-primary type="submit">
   </form>
 
-  
+
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 

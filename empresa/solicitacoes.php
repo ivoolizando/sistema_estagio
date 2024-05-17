@@ -1,6 +1,7 @@
 <?php
 include("../conexao.php");
 session_start();
+include("componentes/header.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,30 +12,30 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<?php
-include("componentes/header.php");
-?>
 
 <body>
     <div class="content"></div>
     <ul class="list-group">
         <?php
+        $vagaId = $_POST['vaga_id'];
         $usuario = $_SESSION['id'];
-        //Aqui que lista as uqe você não se canditou, tenta usar ela na pagginas minhasvagas
-        //Só que ele tem que mostra as que você s candidatou
-        $sql = "SELECT *
-        FROM Vaga
-        WHERE ID NOT IN (SELECT vaga_id FROM solicitacoes);";
+        $sql = "SELECT Aluno.Nome as Aluno, Aluno.Email as EmailAluno, Aluno.Curriculo as Curriculo, Vaga.Titulo as Vaga, solicitacoes.status as status 
+        FROM solicitacoes 
+        INNER JOIN Aluno ON solicitacoes.aluno_id = Aluno.ID 
+        INNER JOIN Vaga ON solicitacoes.vaga_id = Vaga.ID
+        WHERE Vaga.ID = ".$vagaId.";";
+        
+
         //--------------------------------------------------
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
-            echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';
-            echo '<form action="candidatura.php" method="post">';
-            echo '<input type="hidden" name="vagaId" value="' . $row['ID'] . '">';
-            echo '<input type="hidden" name="usuarioId" value="' . $usuario . '">';
-            echo '<input type="submit" class="btn btn-primary float-right" value="Candidatar-se">';
+            echo '<li class="list-group-item"><h4>' . $row['Aluno'] . '</h4><p>' . $row['EmailAluno'] . '</p><a target="_blank" href="../'.$row['Curriculo'].'"><button style="margin-bottom:10px;">Ver Currículo</button></a><h5>Vaga: ' . $row['Vaga'] . '</h5><h5>Status: ' . $row['status'] . '</h5>';
+            echo '<form action="contratar.php" method="post">';
+            echo '<input type="hidden" name="aluno_id" value="' . $row['Aluno'] . '">';
+            echo '<input type="submit" class="btn btn-primary float-right" value="Contratar">';
             echo '</form></li>';
         }
+        
         ?>
 
     </ul>

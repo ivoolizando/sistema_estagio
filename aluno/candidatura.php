@@ -12,27 +12,39 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas Vagas</title>
+    <style>
+    button[type="submit"] {
+      width: auto;
+      background-color: #007BFF;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+</style>
 </head>
 
 <body>
-<h2 style="text-align: center;">Minhas Candidaturas</h2><br>
     <?php
-        $usuario = $_SESSION['id'];
+    $usuarioId = $_POST['usuarioId'];
+    $vagaId = $_POST['vagaId'];
 
-        $sql = "SELECT Vaga.ID, Vaga.Titulo as Titulo, Vaga.descricao as Descricao, solicitacoes.status as statusvaga
-        FROM Vaga inner join solicitacoes on Vaga.ID = solicitacoes.vaga_id
-        WHERE Vaga.ID IN (SELECT vaga_id FROM solicitacoes) ;";
-        //--------------------------------------------------
-        $result = mysqli_query($conn, $sql);
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';
-            echo '<form action="candidatura.php" method="post">';
-            echo '<input type="hidden" name="vagaId" value="' . $row['ID'] . '">';
-            echo '<input type="hidden" name="usuarioId" value="' . $usuario . '">';
-            echo '<h5>Status: ' . $row['statusvaga'] . '</h5>';
-            echo '</form></li>';
-        }
+    $sql = "INSERT INTO solicitacoes (status,aluno_id, vaga_id) VALUES ('pendente',$usuarioId, $vagaId)";
+    if (mysqli_query($conn, $sql)) {
+        echo "Candidatura realizada com sucesso!<br>";
+        echo "<a href='minhasvagas.php'><button type='submit'>Ver minhas candidaturas</button></a>";
+    } else {
+        echo "Erro: " . $sql . "<br>" . mysqli_error($conn);
+    }
     ?>
+
+
 
     </ul>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
