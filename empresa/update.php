@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descricao = mysqli_real_escape_string($conn, $_POST['Descricao']);
     $vaga_id = isset($_POST['vaga_id']) ? mysqli_real_escape_string($conn, $_POST['vaga_id']) : null;
 
-    // Se vaga_id for definido, atualize o registro correspondente no banco de dados
+    // Se vaga_id for definido, vai atualizar o registro no bd
     if ($vaga_id) {
         $sql = "UPDATE Vaga SET Titulo = '$titulo', Descricao = '$descricao' WHERE ID = '$vaga_id';";
         if (mysqli_query($conn, $sql)) {

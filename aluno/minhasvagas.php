@@ -22,7 +22,7 @@ session_start();
         $sql = "SELECT Vaga.ID, Vaga.Titulo as Titulo, Vaga.descricao as Descricao, solicitacoes.status as statusvaga
         FROM Vaga inner join solicitacoes on Vaga.ID = solicitacoes.vaga_id
         WHERE Vaga.ID IN (SELECT vaga_id FROM solicitacoes) ;";
-        //--------------------------------------------------
+        
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';

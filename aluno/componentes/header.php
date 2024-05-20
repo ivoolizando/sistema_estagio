@@ -20,16 +20,15 @@
                 </li>
             </ul>
         </div>
-        <!-- Transforme o link em um botão dentro de um formulário -->
+        <!-- mudando o link p um botão clicavel -->
         <form class="form-inline my-2 my-lg-0" method="post">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="logout">Deslogar</button>
         </form>
     </nav>
 </header>
 <?php
-// Inclua este trecho de código no início do seu arquivo PHP para verificar se o botão foi pressionado
+
 if(isset($_POST['logout'])) {
-    // Destrua a sessão e redirecione para a página de login
     session_start();
     session_destroy();
     header('Location: ../login.php');

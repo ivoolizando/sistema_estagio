@@ -4,7 +4,6 @@ $username = "root";
 $password = "";
 $dbname = "sistemaestagio";
 
-// Criar conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Verificar conexão

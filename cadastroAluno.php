@@ -1,7 +1,8 @@
 <?php
+session_start();
 include("conexao.php");
 
-// Inserir dados do formulário no banco de dados
+// peo os dados do forms no bd
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $nome = $_POST["nome"];
   $telefone = $_POST["telefone"];
@@ -14,18 +15,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $bairro = $_POST["bairro"];
   $curriculo = $_FILES["cv"]["name"];
 
-  // Mover o arquivo enviado para o diretório desejado
+  //vai mover o arquivo p diretorio
   $target_dir = "uploads/";
 
-  // Verificar se a pasta existe, se não, criar a pasta
+  //codigo p ver se a pasta existe, se nao ela vai criar o diretorio p recer o arquivo de upload
   if (!file_exists($target_dir)) {
     mkdir($target_dir, 0777, true);
   }
 
-  // Obter a extensão do arquivo
+  // arquivo p obter a extensão do arquivo
   $file_extension = pathinfo($_FILES["cv"]["name"], PATHINFO_EXTENSION);
 
-  // Criar o nome do arquivo com o e-mail do aluno
+  // vai criar o nome do arquivo com o e-mail do aluno
   $new_filename = $email . "." . $file_extension;
 
   $target_file = $target_dir . $new_filename;
@@ -39,20 +40,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   VALUES ('$nome', '$telefone', '$email','$senha','$endereco', '$estado', '$cidade', '$bairro', '$target_file')";
 
     if ($conn->query($sql) === TRUE) {
+      $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
       echo "<script type='text/javascript'>
                 alert('Cadastro realizado com sucesso!');
-                window.location.href = 'index.php';
+                window.location.href = 'login.php';
               </script>";
-      //echo "Novo registro criado com sucesso";
+      exit();
     } else {
       echo "Erro: " . $sql . "<br>" . $conn->error;
     }
   } elseif ($senha !== $confirmarsenha) {
     echo "<script type='text/javascript'>
                 alert('Senhas não são iguais!');
-                window.location.href = 'index.php';
+                window.location.href = 'cadastroAluno.php';
               </script>";
-    //echo ("Senhas não são iguais");
+              
+    exit();
   }
 }
 
@@ -115,7 +118,6 @@ $conn->close();
 </head>
 
 <body>
-
   <h2>CADASTRO DE ALUNO</h2>
 
   <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">

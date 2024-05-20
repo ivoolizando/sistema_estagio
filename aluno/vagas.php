@@ -20,12 +20,9 @@ include("componentes/header.php");
     <ul class="list-group">
         <?php
         $usuario = $_SESSION['id'];
-        //Aqui que lista as uqe você não se canditou, tenta usar ela na pagginas minhasvagas
-        //Só que ele tem que mostra as que você s candidatou
         $sql = "SELECT *
         FROM Vaga
         WHERE ID NOT IN (SELECT vaga_id FROM solicitacoes);";
-        //--------------------------------------------------
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';
