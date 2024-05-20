@@ -24,13 +24,19 @@ include("componentes/header.php");
         FROM Vaga
         WHERE ID NOT IN (SELECT vaga_id FROM solicitacoes);";
         $result = mysqli_query($conn, $sql);
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';
-            echo '<form action="candidatura.php" method="post">';
-            echo '<input type="hidden" name="vagaId" value="' . $row['ID'] . '">';
-            echo '<input type="hidden" name="usuarioId" value="' . $usuario . '">';
-            echo '<input type="submit" class="btn btn-primary float-right" value="Candidatar-se">';
-            echo '</form></li>';
+        $rows = mysqli_num_rows($result);
+        if ($rows > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';
+                echo '<form action="candidatura.php" method="post">';
+                echo '<input type="hidden" name="vagaId" value="' . $row['ID'] . '">';
+                echo '<input type="hidden" name="usuarioId" value="' . $usuario . '">';
+                echo '<input type="submit" class="btn btn-primary float-right" value="Candidatar-se">';
+                echo '</form></li>';
+            }
+        }
+        else{
+        echo '<br> <br> <h2>Não há vagas disponíveis no momento.</h2>';
         }
         ?>
 

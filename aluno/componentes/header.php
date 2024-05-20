@@ -10,7 +10,7 @@
                     <a class="nav-link" href="vagas.php">Vagas <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cursos</a>
+                    <a class="nav-link" href="cursos.php">Cursos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="minhasvagas.php">Minhas Vagas</a>

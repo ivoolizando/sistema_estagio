@@ -40,11 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .list-group {
       display: flex;
       flex-direction: column;
-      align-items: center;  
-      
+      align-items: center;
+
     }
 
-    .list-group-item{
+    .list-group-item {
       width: 600px;
     }
 
@@ -126,22 +126,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
           echo '<li class="list-group-item">';
-          echo '<div>' ."<h5>Título</h5>". $row['Nome'] . '</div>';
-          echo '<div>'."<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
-          echo '<iframe width="560" height="315" src="' . $row['Video'].'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+          echo '<div>' . "<h5>Título</h5>" . $row['Nome'] . '</div>';
+          echo '<div>' . "<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
+          echo '<iframe width="560" height="315" src="' . $row['Video'] . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
           echo '<form method="POST" action="excluir_curso.php" style="display: inline; margin-right: 10px;">';
           echo '<input type="hidden" name="curso_id" value="' . $row['ID'] . '">';
           echo '<button type="submit">Excluir</button>';
           echo '</form>';
           echo '<form method="POST" action="editar_curso.php" style="display: inline; margin-right: 10px;">';
-          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
+          echo '<input type="hidden" name="curso_id" value="' . $row['ID'] . '">';
           echo '<input type="hidden" name="Nome" value="' . $row['Nome'] . '">';
           echo '<input type="hidden" name="Descricao" value="' . $row['Descricao'] . '">';
+          echo '<input type="hidden" name="Video" value="' . $row['Video'] . '">';
           echo '<button type="submit">Editar</button>';
           echo '</form>';
           echo '<form method="POST" action="solicitacoes.php" style="display: inline; margin-right: 10px;">';
-          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
-          echo '<button type="submit">Ver Solicitações</button>';
+          echo '<input type="hidden" name="curso_id" value="' . $row['ID'] . '">';
+          //echo '<button type="submit">Ver Solicitações</button>';
           echo '</form>';
           echo '</li>';
         }

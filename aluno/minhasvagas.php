@@ -15,15 +15,17 @@ session_start();
 </head>
 
 <body>
-<h2 style="text-align: center;">Minhas Candidaturas</h2><br>
+    <h2 style="text-align: center;">Minhas Candidaturas</h2><br>
     <?php
-        $usuario = $_SESSION['id'];
+    $usuario = $_SESSION['id'];
 
-        $sql = "SELECT Vaga.ID, Vaga.Titulo as Titulo, Vaga.descricao as Descricao, solicitacoes.status as statusvaga
+    $sql = "SELECT Vaga.ID, Vaga.Titulo as Titulo, Vaga.descricao as Descricao, solicitacoes.status as statusvaga
         FROM Vaga inner join solicitacoes on Vaga.ID = solicitacoes.vaga_id
         WHERE Vaga.ID IN (SELECT vaga_id FROM solicitacoes) ;";
-        
-        $result = mysqli_query($conn, $sql);
+
+    $result = mysqli_query($conn, $sql);
+    $rows = mysqli_num_rows($result);
+    if ($rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';
             echo '<form action="candidatura.php" method="post">';
@@ -32,6 +34,10 @@ session_start();
             echo '<h5>Status: ' . $row['statusvaga'] . '</h5>';
             echo '</form></li>';
         }
+    } else {
+        echo '<br> <br> <h2>Não há candidaturas disponíveis no momento.</h2>';
+    }
+
     ?>
 
     </ul>
