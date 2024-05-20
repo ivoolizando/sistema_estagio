@@ -14,13 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
    $count = mysqli_num_rows($result);
 
-   // Se o resultado for 1, o usuário e senha estão corretos
+   // Se o resultado for 1, o usuário e senha tão corretos
 
    if ($count == 1) {
-      $id = $row['id']; // Obtenha o id do usuário a partir da consulta ao banco de dados
-      $email = $myemail; // Você já tem o email do formulário de login
+      $id = $row['id']; // aqui vai pegar o id do usuario da consulta no banco
+      $email = $myemail; //aqui o email ja tenho pq veio do forms de login
    
-      // Armazene os dados na sessão
+      // aqui vai armazenar os dados na sessao
       $_SESSION['usuario'] = $usuario;
       $_SESSION['id'] = $id;
       $_SESSION['email'] = $email;
@@ -33,8 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          exit();
       }
    } else {
-      $_SESSION['nao_autenticado'] = true;
-      header('Location: index.php');
+      $_SESSION['mensagemerro'] = "E-mail ou Senha não coincidem.";
+      header('Location: login.php');
       exit();
    }
 }   
@@ -56,11 +56,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button class="btn btn-primary" id="empresa" onclick="highlightButton('empresa')">Empresa</button>
          </div>
 
+         <?php 
+
+               if (isset($_SESSION['mensagem'])) {
+                  echo '<div class="alert alert-success" role="alert">
+                  '.$_SESSION['mensagem'].'
+                  </div>';
+                  unset($_SESSION['mensagem']);
+               } 
+
+               if (isset($_SESSION['mensagemerro'])) {
+                  echo '<div class="alert alert-danger" role="alert">
+                  '.$_SESSION['mensagemerro'].'
+                </div>';
+                  unset($_SESSION['mensagemerro']);
+               }
+            ?>
+
 
          <div style="margin:30px">
-
             <form action="" method="post">
-               <input type="hidden" name="switch" id="switch" value="" />
+               <input type="hidden" name="switch" id="switch" value="0" />
                <label>E-mail </label><input type="text" name="Email" class="box" /><br /><br />
                <label>Senha </label><input type="password" name="Senha" class="box" /><br /><br />
                <input type="submit" value=" Enviar " /><br />

@@ -1,7 +1,8 @@
 <?php
+session_start();
 include("conexao.php");
 
-// Inserir dados do formulário no banco de dados
+// peo os dados do forms no bd
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $nome = $_POST["nome"];
   $telefone = $_POST["telefone"];
@@ -10,28 +11,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $confirmarsenha = $_POST["confirmarsenha"];
   $endereco = $_POST["endereco"];
   $estado = $_POST["estado"];
+  $cidade = $_POST["cidade"];
   $bairro = $_POST["bairro"];
+  $curriculo = $_FILES["cv"]["name"];
+
+  //vai mover o arquivo p diretorio
+  $target_dir = "uploads/";
+
+  //codigo p ver se a pasta existe, se nao ela vai criar o diretorio p recer o arquivo de upload
+  if (!file_exists($target_dir)) {
+    mkdir($target_dir, 0777, true);
+  }
+
+  // arquivo p obter a extensão do arquivo
+  $file_extension = pathinfo($_FILES["cv"]["name"], PATHINFO_EXTENSION);
+
+  // vai criar o nome do arquivo com o e-mail do aluno
+  $new_filename = $email . "." . $file_extension;
+
+  $target_file = $target_dir . $new_filename;
+  move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file);
+
+
 
   if ($senha == $confirmarsenha) {
 
-    $sql = "INSERT INTO Aluno (nome, telefone, email, senha, endereco, estado, bairro)
-  VALUES ('$nome', '$telefone', '$email','$senha','$endereco', '$estado', '$bairro')";
+    $sql = "INSERT INTO Aluno (nome, telefone, email, senha, endereco, estado, cidade, bairro, curriculo)
+  VALUES ('$nome', '$telefone', '$email','$senha','$endereco', '$estado', '$cidade', '$bairro', '$target_file')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "<script type='text/javascript'>
+      $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
+      echo "<script type='text/javascript'>
                 alert('Cadastro realizado com sucesso!');
-                window.location.href = 'index.php';
+                window.location.href = 'login.php';
               </script>";
-      //echo "Novo registro criado com sucesso";
+      exit();
     } else {
       echo "Erro: " . $sql . "<br>" . $conn->error;
     }
   } elseif ($senha !== $confirmarsenha) {
     echo "<script type='text/javascript'>
                 alert('Senhas não são iguais!');
-                window.location.href = 'index.php';
+                window.location.href = 'cadastroAluno.php';
               </script>";
-    //echo ("Senhas não são iguais");
+              
+    exit();
   }
 }
 
@@ -94,7 +118,6 @@ $conn->close();
 </head>
 
 <body>
-
   <h2>CADASTRO DE ALUNO</h2>
 
   <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
@@ -112,12 +135,16 @@ $conn->close();
     <br>
     Estado: <input type="text" name="estado">
     <br>
+    Cidade: <input type="text" name="cidade">
+    <br>
     Bairro: <input type="text" name="bairro">
+    <br>
+    Currículo/CV: <input type="file" name="cv">
     <br>
     <input --bs-primary type="submit">
   </form>
 
-  
+
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 

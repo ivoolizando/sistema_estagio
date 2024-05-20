@@ -1,15 +1,17 @@
 <?php
 session_start();
 include("../conexao.php");
+include("componentes/header.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $titulo = mysqli_real_escape_string($conn, $_POST['Titulo']);
   $descricao = mysqli_real_escape_string($conn, $_POST['Descricao']);
+  $url = mysqli_real_escape_string($conn, $_POST['Url']);
 
   if ($titulo != null && $descricao != null) {
-    $sql = "INSERT INTO Vaga (Titulo, Descricao, EmpresaID) VALUES ('$titulo', '$descricao', " . $_SESSION["id"] . ");";
+    $sql = "INSERT INTO Curso (Nome, Descricao, EmpresaID, Video) VALUES ('$titulo', '$descricao',' " . $_SESSION["id"] . "', '$url');";
     $result = mysqli_query($conn, $sql);
-    $_SESSION['mensagem'] = "Vaga adicionada!";
+    $_SESSION['mensagem'] = "Curso Adcionado!";
   }
 }
 ?>
@@ -22,9 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
-<?php
-include("componentes/header.php");
-?>
+
 
 <body>
   <style>
@@ -98,10 +98,10 @@ include("componentes/header.php");
       background-color: #45a049;
     }
   </style>
-  <h2>CADASTRAR NOVA VAGA</h2>
+  <h2>CADASTRAR NOVO CURSO</h2>
 
   <?php if (isset($_SESSION['mensagem'])) {
-    echo '<script> alert("' . $_SESSION['mensagem'] . '"); window.location.href = "vagas.php";</script>';
+    echo '<script> alert("' . $_SESSION['mensagem'] . '"); window.location.href = "cursos.php";</script>';
     unset($_SESSION['mensagem']);
   } ?>
 
@@ -110,29 +110,32 @@ include("componentes/header.php");
     <br>
     Descrição: <input type="text" name="Descricao" required>
     <br>
+    Link do vídeo: <input type="text" name="Url" required>
+    <br>
     <input --bs-primary type="submit">
   </form>
 
   <body>
     <br>
-    <h2>VAGAS EXISTENTES</h2>
+    <h2>CURSOS EXISTENTES</h2>
     <ul class="list-group">
 
       <ul class="list-group">
         <?php
-        $sql = "SELECT * from Vaga where EmpresaID = " . $_SESSION["id"] . ";";
+        $sql = "SELECT * from Curso where EmpresaID = " . $_SESSION["id"] . ";";
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
           echo '<li class="list-group-item">';
-          echo '<div>' ."<h5>Título</h5>". $row['Titulo'] . '</div>';
+          echo '<div>' ."<h5>Título</h5>". $row['Nome'] . '</div>';
           echo '<div>'."<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
-          echo '<form method="POST" action="excluir_vaga.php" style="display: inline; margin-right: 10px;">';
-          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
+          echo '<iframe width="560" height="315" src="' . $row['Video'].'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+          echo '<form method="POST" action="excluir_curso.php" style="display: inline; margin-right: 10px;">';
+          echo '<input type="hidden" name="curso_id" value="' . $row['ID'] . '">';
           echo '<button type="submit">Excluir</button>';
           echo '</form>';
-          echo '<form method="POST" action="editar_vaga_form.php" style="display: inline; margin-right: 10px;">';
+          echo '<form method="POST" action="editar_curso.php" style="display: inline; margin-right: 10px;">';
           echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
-          echo '<input type="hidden" name="Titulo" value="' . $row['Titulo'] . '">';
+          echo '<input type="hidden" name="Nome" value="' . $row['Nome'] . '">';
           echo '<input type="hidden" name="Descricao" value="' . $row['Descricao'] . '">';
           echo '<button type="submit">Editar</button>';
           echo '</form>';

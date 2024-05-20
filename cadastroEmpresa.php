@@ -1,7 +1,8 @@
 <?php
+session_start();
 include("conexao.php");
 
-// Inserir dados do formulário no banco de dados
+// aqui vai inserir os dados do forms no bd
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
     $cnpj = $_POST["cnpj"];
@@ -14,14 +15,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         VALUES ('$nome','$cnpj', '$email','$senha')";
 
         if ($conn->query($sql) === TRUE) {
-            echo ("Cadastro realizado com sucesso!");
-            //header('Location: index.php');
+            $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
+            echo "<script type='text/javascript'>
+                alert('Cadastro realizado com sucesso!');
+                window.location.href = 'login.php';
+              </script>";
+            header('Location: login.php');
+            exit();
         } else {
             echo "Erro: " . $sql . "<br>" . $conn->error;
         }
     } elseif ($senha !== $confirmarsenha) {
-        echo ("Senhas não são iguais");
-        //header('Location: index.php');
+        echo "<script type='text/javascript'>
+                alert('Senhas não são iguais!');
+                window.location.href = 'cadastroEmpresa.php';
+              </script>";
+        exit();
     }
 }
 
