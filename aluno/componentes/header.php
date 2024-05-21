@@ -6,14 +6,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="vagas.php">Vagas <span class="sr-only">(current)</span></a>
+                <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'perfil.php')) echo 'active'; ?>">
+                    <a class="nav-link" href="perfil.php">Meu perfil</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'vagas.php')) echo 'active'; ?>">
+                    <a class="nav-link" href="vagas.php">Vagas</a>
+                </li>
+                <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'cursos.php')) echo 'active'; ?>">
                     <a class="nav-link" href="cursos.php">Cursos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="minhasvagas.php">Minhas Vagas</a>
+                <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'candidaturas.php')) echo 'active'; ?>">
+                    <a class="nav-link" href="candidaturas.php">Minhas Vagas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Relatórios</a>
@@ -35,3 +38,4 @@ if(isset($_POST['logout'])) {
     exit;
 }
 ?>
+

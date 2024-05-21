@@ -38,7 +38,7 @@ session_start();
     $sql = "INSERT INTO solicitacoes (status,aluno_id, vaga_id) VALUES ('pendente',$usuarioId, $vagaId)";
     if (mysqli_query($conn, $sql)) {
         echo "Candidatura realizada com sucesso!<br>";
-        echo "<a href='minhasvagas.php'><button type='submit'>Ver minhas candidaturas</button></a>";
+        echo "<a href='candidaturas.php'><button type='submit'>Ver minhas candidaturas</button></a>";
     } else {
         echo "Erro: " . $sql . "<br>" . mysqli_error($conn);
     }

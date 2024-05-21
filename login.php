@@ -48,11 +48,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
    <div align="center">
-      <div style="width:300px; border: solid 1px #333333;border-radius: 15px; " align="center">
+      <br>
+      <h1>Sistema Estágio</h1>
+      <br>
+      <div style="width:400px; border: solid 1px #333333;border-radius: 15px; " align="center">
          <div style="background-color:#333333; color:#FFFFFF; padding:3px;border-radius: 15px 15px 0px 0px;"><b>Login</b></div>
-
+         <br>
+         <h5>Entrar como:</h5>
          <div style="display: flex; flex-direction: row; gap:30px; justify-content: center;">
-            <button class="btn btn-primary" id="aluno" onclick="highlightButton('aluno')">Aluno</button>
+            <button class="btn btn-success btn-primary" id="aluno" onclick="highlightButton('aluno')">Aluno</button>
             <button class="btn btn-primary" id="empresa" onclick="highlightButton('empresa')">Empresa</button>
          </div>
 
@@ -77,10 +81,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          <div style="margin:30px">
             <form action="" method="post">
                <input type="hidden" name="switch" id="switch" value="0" />
-               <label>E-mail </label><input type="text" name="Email" class="box" /><br /><br />
-               <label>Senha </label><input type="password" name="Senha" class="box" /><br /><br />
-               <input type="submit" value=" Enviar " /><br />
-               <a id="cadastro" href="cadastroAluno.php">Cadastrar-se</a>
+               <label>E-mail:</label><input style="margin-left: 2px;" type="text" name="Email" class="box" /><br /><br />
+               <label>Senha:</label><input style="margin-left: 2px;" type="password" name="Senha" class="box" /><br /><br />
+               <input class="btn btn-primary" style="margin-bottom: 5px;" type="submit" value=" Entrar " /><br />
+               <p>Ou tente <a id="cadastro" href="cadastroAluno.php">Cadastrar-se</a></p>
 
             </form>
 

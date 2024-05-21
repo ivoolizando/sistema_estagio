@@ -15,6 +15,7 @@ session_start();
 </head>
 
 <body>
+    <br>
     <h2 style="text-align: center;">Minhas Candidaturas</h2><br>
     <?php
     $usuario = $_SESSION['id'];
