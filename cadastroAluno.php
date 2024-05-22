@@ -2,61 +2,59 @@
 session_start();
 include("conexao.php");
 
-// peo os dados do forms no bd
+// Obtém os dados do formulário
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $nome = $_POST["nome"];
-  $telefone = $_POST["telefone"];
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
-  $confirmarsenha = $_POST["confirmarsenha"];
-  $endereco = $_POST["endereco"];
-  $estado = $_POST["estado"];
-  $cidade = $_POST["cidade"];
-  $bairro = $_POST["bairro"];
-  $curriculo = $_FILES["cv"]["name"];
+    $nome = $_POST["nome"];
+    $telefone = $_POST["telefone"];
+    $email = $_POST["email"];
+    $senha = $_POST["senha"];
+    $confirmarsenha = $_POST["confirmarsenha"];
+    $endereco = $_POST["endereco"];
+    $estado = $_POST["estado"];
+    $cidade = $_POST["cidade"];
+    $bairro = $_POST["bairro"];
+    $curriculo = $_FILES["cv"]["name"];
 
-  //vai mover o arquivo p diretorio
-  $target_dir = "uploads/";
-
-  //codigo p ver se a pasta existe, se nao ela vai criar o diretorio p recer o arquivo de upload
-  if (!file_exists($target_dir)) {
-    mkdir($target_dir, 0777, true);
-  }
-
-  // arquivo p obter a extensão do arquivo
-  $file_extension = pathinfo($_FILES["cv"]["name"], PATHINFO_EXTENSION);
-
-  // vai criar o nome do arquivo com o e-mail do aluno
-  $new_filename = $email . "." . $file_extension;
-
-  $target_file = $target_dir . $new_filename;
-  move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file);
-
-
-
-  if ($senha == $confirmarsenha) {
-
-    $sql = "INSERT INTO Aluno (nome, telefone, email, senha, endereco, estado, cidade, bairro, curriculo)
-  VALUES ('$nome', '$telefone', '$email','$senha','$endereco', '$estado', '$cidade', '$bairro', '$target_file')";
-
-    if ($conn->query($sql) === TRUE) {
-      $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
-      echo "<script type='text/javascript'>
-                alert('Cadastro realizado com sucesso!');
-                window.location.href = 'login.php';
-              </script>";
-      exit();
-    } else {
-      echo "Erro: " . $sql . "<br>" . $conn->error;
+    // Verifica se a pasta de uploads existe, senão cria
+    $target_dir = "uploads/";
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true);
     }
-  } elseif ($senha !== $confirmarsenha) {
-    echo "<script type='text/javascript'>
+
+    // Obtém a extensão do arquivo
+    $file_extension = pathinfo($_FILES["cv"]["name"], PATHINFO_EXTENSION);
+
+    // Cria um nome de arquivo com base no e-mail do aluno
+    $new_filename = $email . "." . $file_extension;
+    $target_file = $target_dir . $new_filename;
+
+    // Move o arquivo para o diretório de uploads
+    move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file);
+
+    // Criptografa a senha
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+    if ($senha == $confirmarsenha) {
+        $sql = "INSERT INTO Aluno (nome, telefone, email, senha, endereco, estado, cidade, bairro, curriculo)
+                VALUES ('$nome', '$telefone', '$email', '$senha_hash', '$endereco', '$estado', '$cidade', '$bairro', '$target_file')";
+
+        if ($conn->query($sql) === TRUE) {
+            $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
+            echo "<script type='text/javascript'>
+                    alert('Cadastro realizado com sucesso!');
+                    window.location.href = 'login.php';
+                  </script>";
+            exit();
+        } else {
+            echo "Erro: " . $sql . "<br>" . $conn->error;
+        }
+    } else {
+        echo "<script type='text/javascript'>
                 alert('Senhas não são iguais!');
                 window.location.href = 'cadastroAluno.php';
               </script>";
-              
-    exit();
-  }
+        exit();
+    }
 }
 
 $conn->close();

@@ -96,9 +96,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         button[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #002c5b;
         }
     </style>
+
 
     <body>
         <br>

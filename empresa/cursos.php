@@ -49,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .content {
+      width: 600px;
       background-color: #f8f8f8;
       margin: 0 auto;
       padding: 20px;
@@ -80,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     input[type="submit"]:hover {
-      background-color: #45a049;
+      background-color: #002c5b;
     }
 
     button[type="submit"] {
@@ -95,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     button[type="submit"]:hover {
-      background-color: #45a049;
+      background-color: #002c5b;
     }
   </style>
   <h2>CADASTRAR NOVO CURSO</h2>
@@ -108,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <form class="content" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
     Título: <input type="text" name="Titulo" required>
     <br>
-    Descrição: <input type="text" name="Descricao" required>
+    Descrição   <textarea name="textarea" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
     <br>
     Link do vídeo: <input type="text" name="Url" required>
     <br>

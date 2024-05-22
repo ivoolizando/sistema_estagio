@@ -2,7 +2,7 @@
 session_start();
 include("conexao.php");
 
-// aqui vai inserir os dados do forms no bd
+// Aqui vai inserir os dados do formulário no banco de dados
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
     $cnpj = $_POST["cnpj"];
@@ -10,9 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha = $_POST["senha"];
     $confirmarsenha = $_POST["confirmarsenha"];
 
+    // Criptografa a senha
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
     if ($senha == $confirmarsenha) {
         $sql = "INSERT INTO Empresa (nome, cnpj, email, senha)
-        VALUES ('$nome','$cnpj', '$email','$senha')";
+        VALUES ('$nome', '$cnpj', '$email', '$senha_hash')";
 
         if ($conn->query($sql) === TRUE) {
             $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
@@ -25,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Erro: " . $sql . "<br>" . $conn->error;
         }
-    } elseif ($senha !== $confirmarsenha) {
+    } else {
         echo "<script type='text/javascript'>
                 alert('Senhas não são iguais!');
                 window.location.href = 'cadastroEmpresa.php';

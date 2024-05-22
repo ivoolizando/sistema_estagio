@@ -20,11 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
+
         h2 {
             color: #6c757d;
             text-align: center;
             margin-top: 20px;
         }
+
         form {
             width: 300px;
             margin: 0 auto;
@@ -33,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 5px;
             background-color: #ffffff;
         }
+
         input[type="text"] {
             width: 100%;
             margin-bottom: 10px;
@@ -40,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: 1px solid #ced4da;
             border-radius: 3px;
         }
+
         input[type="submit"] {
             width: 100%;
             padding: 5px;
@@ -49,23 +53,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #007bff;
             cursor: pointer;
         }
+
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Vaga</title>
+    <title>Editar Curso</title>
 </head>
 
 <body>
-    <h2>EDITAR CURSO</h2>
+    <style>
+        form {
+            width: 600px;
+            background-color: #f8f8f8;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+    <a href="cursos.php" class="btn btn-primary">Voltar</a>
+    <h2 class="content">EDITAR CURSO</h2>
 
     <form method="post" action="update_curso.php">
         Título: <input type="text" name="Titulo" value="<?php echo $titulo; ?>" required>
         <br>
-        Descrição: <input type="text" name="Descricao" value="<?php echo $descricao; ?>" required>
-        <br>
+        Descrição   <textarea name="textarea" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         Link: <input type="text" name="Video" value="<?php echo $video; ?>" required>
         <br>
         <input type="hidden" name="curso_id" value="<?php echo $curso_id; ?>">

@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Cadastrar Vaga</title>
 </head>
 <?php
 include("componentes/header.php");
@@ -80,7 +80,7 @@ include("componentes/header.php");
     }
 
     input[type="submit"]:hover {
-      background-color: #45a049;
+      background-color: #002c5b;
     }
 
     button[type="submit"] {
@@ -95,7 +95,7 @@ include("componentes/header.php");
     }
 
     button[type="submit"]:hover {
-      background-color: #45a049;
+      background-color: #002c5b;
     }
   </style>
   <h2>CADASTRAR NOVA VAGA</h2>
@@ -108,8 +108,7 @@ include("componentes/header.php");
   <form class="content" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
     Título: <input type="text" name="Titulo" required>
     <br>
-    Descrição: <input type="text" name="Descricao" required>
-    <br>
+    Descrição   <textarea name="textarea" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
     <input --bs-primary type="submit">
   </form>
 

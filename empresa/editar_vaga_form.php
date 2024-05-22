@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 20px;
         }
         form {
-            width: 300px;
+            width: 600px;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ced4da;
@@ -49,7 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
         }
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #002c5b;
+        }
+        a{
+            background-color: #002c5b;
         }
     </style>
     <meta charset="UTF-8">
@@ -58,13 +61,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+    <a href="vagas.php" class="btn btn-primary">Voltar</a>
     <h2>EDITAR VAGA</h2>
 
-    <form method="post" action="update.php">
+    <form class="content" method="post" action="update.php">
         Título: <input type="text" name="Titulo" value="<?php echo $titulo; ?>" required>
         <br>
-        Descrição: <input type="text" name="Descricao" value="<?php echo $descricao; ?>" required>
-        <br>
+        Descrição   <textarea name="textarea" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         <input type="hidden" name="vaga_id" value="<?php echo $vaga_id; ?>">
         <input type="submit" value="Atualizar">
     </form>

@@ -1,43 +1,50 @@
 <?php
 include("conexao.php");
 session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $myemail = mysqli_real_escape_string($conn, $_POST['Email']);
    $mypassword = mysqli_real_escape_string($conn, $_POST['Senha']);
    $switch = mysqli_real_escape_string($conn, $_POST['switch']);
+
    if ($switch == 0) {
-      $sql = "SELECT id FROM Aluno WHERE Email = '$myemail' and Senha = '$mypassword'";
+      $sql = "SELECT id, senha FROM Aluno WHERE Email = '$myemail'";
    } else if ($switch == 1) {
-      $sql = "SELECT id FROM Empresa WHERE Email = '$myemail' and Senha = '$mypassword'";
+      $sql = "SELECT id, senha FROM Empresa WHERE Email = '$myemail'";
    }
+
    $result = mysqli_query($conn, $sql);
    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-   $count = mysqli_num_rows($result);
 
-   // Se o resultado for 1, o usuário e senha tão corretos
+   if ($row) {
+      $stored_hash = $row['senha']; // Senha criptografada armazenada no banco de dados
+      if (password_verify($mypassword, $stored_hash)) {
+         // Autenticação bem-sucedida
+         $id = $row['id'];
+         $email = $myemail;
 
-   if ($count == 1) {
-      $id = $row['id']; // aqui vai pegar o id do usuario da consulta no banco
-      $email = $myemail; //aqui o email ja tenho pq veio do forms de login
-   
-      // aqui vai armazenar os dados na sessao
-      $_SESSION['usuario'] = $usuario;
-      $_SESSION['id'] = $id;
-      $_SESSION['email'] = $email;
-   
-      if ($switch == 0) {
-         header('Location: aluno/index.php');
-         exit();
-      } elseif ($switch == 1) {
-         header('Location: empresa/index.php');
+         // Armazena os dados na sessão
+         $_SESSION['usuario'] = $email;
+         $_SESSION['id'] = $id;
+
+         if ($switch == 0) {
+            header('Location: aluno/index.php');
+            exit();
+         } elseif ($switch == 1) {
+            header('Location: empresa/index.php');
+            exit();
+         }
+      } else {
+         $_SESSION['mensagemerro'] = "E-mail ou Senha não coincidem.";
+         header('Location: login.php');
          exit();
       }
    } else {
-      $_SESSION['mensagemerro'] = "E-mail ou Senha não coincidem.";
+      $_SESSION['mensagemerro'] = "Usuário não encontrado.";
       header('Location: login.php');
       exit();
    }
-}   
+}
 ?>
 
 <html>
@@ -47,6 +54,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+   <style>
+      .btn-success {
+         color: #fff;
+         background-color: #002c5b;
+         border-color: #002c5b;
+      }
+
+      .btn-success:hover {
+         color: #fff;
+         background-color: #002c5b;
+         border-color: #002c5b;
+      }
+
+      .btn-success:focus {
+         box-shadow: none;
+         background-color: #002c5b;
+         border-color: #002c5b;
+      }
+   </style>
    <div align="center">
       <br>
       <h1>Sistema Estágio</h1>
@@ -60,22 +86,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button class="btn btn-primary" id="empresa" onclick="highlightButton('empresa')">Empresa</button>
          </div>
 
-         <?php 
+         <?php
 
-               if (isset($_SESSION['mensagem'])) {
-                  echo '<div class="alert alert-success" role="alert">
-                  '.$_SESSION['mensagem'].'
+         if (isset($_SESSION['mensagem'])) {
+            echo '<div class="alert alert-success" role="alert">
+                  ' . $_SESSION['mensagem'] . '
                   </div>';
-                  unset($_SESSION['mensagem']);
-               } 
+            unset($_SESSION['mensagem']);
+         }
 
-               if (isset($_SESSION['mensagemerro'])) {
-                  echo '<div class="alert alert-danger" role="alert">
-                  '.$_SESSION['mensagemerro'].'
+         if (isset($_SESSION['mensagemerro'])) {
+            echo '<div class="alert alert-danger" role="alert">
+                  ' . $_SESSION['mensagemerro'] . '
                 </div>';
-                  unset($_SESSION['mensagemerro']);
-               }
-            ?>
+            unset($_SESSION['mensagemerro']);
+         }
+         ?>
 
 
          <div style="margin:30px">
@@ -116,7 +142,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          }
       }
    </script>
-
 </body>
 
 </html>

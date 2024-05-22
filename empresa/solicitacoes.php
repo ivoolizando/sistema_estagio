@@ -14,6 +14,15 @@ include("componentes/header.php");
 </head>
 
 <body>
+    <style>
+        input[type="submit"]:hover {
+            background-color: #002c5b;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #002c5b;
+        }
+    </style>
     <div class="content"></div>
     <ul class="list-group">
         <?php
