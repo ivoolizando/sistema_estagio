@@ -1,77 +1,14 @@
+<?php
+if(isset($_POST['logout'])) {
+    session_start();
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+?>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
-<style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-
-    h2 {
-      color: #333;
-      TEXT-ALIGN: center;
-    }
-
-    .list-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-    }
-
-    .list-group-item {
-      width: 600px;
-    }
-
-    .content {
-      background-color: #f8f8f8;
-      margin: 0 auto;
-      padding: 20px;
-      width: 600px;
-      border-radius: 8px;
-    }
-
-    input[type="password"],
-    input[type="text"],
-    input[type="file"] {
-      width: 100%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    input[type="submit"] {
-      width: 100%;
-      background-color: #007BFF;
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #45a049;
-    }
-
-    button[type="submit"] {
-      width: auto;
-      background-color: #007BFF;
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button[type="submit"]:hover {
-      background-color: #002c5b;
-    }
-</style>
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -98,11 +35,74 @@
     </nav>
 </header>
 
-<?php
-if(isset($_POST['logout'])) {
-    session_start();
-    session_destroy();
-    header('Location: ../login.php');
-    exit;
-}
-?>
+  <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+  
+      h2 {
+        color: #333;
+        TEXT-ALIGN: center;
+      }
+  
+      .list-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+  
+      }
+  
+      .list-group-item {
+        width: 600px;
+      }
+  
+      .content {
+        background-color: #f8f8f8;
+        margin: 0 auto;
+        padding: 20px;
+        width: 600px;
+        border-radius: 8px;
+      }
+  
+      input[type="password"],
+      input[type="text"],
+      input[type="file"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+  
+      input[type="submit"] {
+        width: 100%;
+        background-color: #007BFF;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+  
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+  
+      button[type="submit"] {
+        width: auto;
+        background-color: #007BFF;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+  
+      button[type="submit"]:hover {
+        background-color: #002c5b;
+      }
+  </style>
