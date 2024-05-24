@@ -42,11 +42,10 @@
      '$Empresa_id');";
 
         if ($conn->query($sql) === TRUE) {
-            $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
             echo "<script type='text/javascript'>
-            alert('Cadastro de Vaga realizado com sucesso!');
-            window.location.href = 'index.php';
-          </script>";
+            alert('Vaga criada com sucesso!');
+            window.location.href = 'vagas.php';
+            </script>";
             exit();
         } else {
             echo "Erro: " . $sql . "<br>" . $conn->error;
@@ -66,7 +65,7 @@
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
   <body>
-      <a href="vagas.php"><button class="btn">Nova Vaga</button></a>
+      <a href="vagas.php"><button class="btn">Voltar</button></a>
       <form class="content" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
           <h2>Cadastrar nova vaga</h2>
 
@@ -111,23 +110,20 @@
   </body>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    
   </html>
   <style>
-      select {
-          margin-bottom: 20px ;
-      }
-
       textarea {
-          height: 200px;
-      }
-
+        height: 200px;
+    }
+    
       h2 {
           margin: auto;
       }
-
+      
       select {
-          width: 20%;
+        margin-bottom: 20px;
+        width: 20%;
       }
 
       body {
@@ -138,7 +134,6 @@
 
       form {
           display: flex;
-
           flex-direction: column;
           background-color: #fff;
           padding: 20px;
