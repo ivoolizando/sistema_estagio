@@ -1,3 +1,12 @@
+<?php
+if (isset($_POST['logout'])) {
+    session_start();
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,10 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Página</title>
-</head>
-
-<body>
-<style>
+    <style>
         body {
             font-family: Arial, sans-serif;
         }
@@ -79,6 +85,9 @@
             background-color: #002c5b;
         }
     </style>
+</head>
+
+<body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="index.php">Home</a>
@@ -121,14 +130,6 @@
             </form>
         </nav>
     </header>
-    <?php
-    if (isset($_POST['logout'])) {
-        session_start();
-        session_destroy();
-        header('Location: ../login.php');
-        exit;
-    }
-    ?>
 </body>
 
 </html>
