@@ -94,7 +94,7 @@ include("componentes/header.php");
         $usuario = $_SESSION['id'];
         $sql = "SELECT *
         FROM Vaga
-        WHERE ID NOT IN (SELECT vaga_id FROM solicitacoes);";
+        WHERE VagaStatus = true and ID NOT IN (SELECT vaga_id FROM solicitacoes);";
         $result = mysqli_query($conn, $sql);
         $rows = mysqli_num_rows($result);
         if ($rows > 0) {

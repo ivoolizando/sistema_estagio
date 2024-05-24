@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <form class="content" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
     Título: <input type="text" name="Titulo" required>
     <br>
-    Descrição   <textarea name="textarea" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+    Descrição   <textarea name="Descricao" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
     <br>
     Link do vídeo: <input type="text" name="Url" required>
     <br>

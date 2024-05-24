@@ -42,35 +42,68 @@ include("componentes/header.php");
 
   <body>
     <br>
-    <h2>Vagas</h2>
+    <h2>Vagas Disponíveis</h2><br>
     <ul class="list-group">
 
       <ul class="list-group">
         <?php
-        $sql = "SELECT * from Vaga where EmpresaID = " . $_SESSION["id"] . ";";
+        $sql = "SELECT * from Vaga where VagaStatus = true and EmpresaID = " . $_SESSION["id"] . ";";
         $result = mysqli_query($conn, $sql);
-        while ($row = mysqli_fetch_assoc($result)) {
-          echo '<li class="list-group-item" >';
-          echo '<div>' . "<h5>Título</h5>" . $row['Titulo'] . '</div>';
-          echo '<div>' . "<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
-          echo '<div class="botao">';
-          echo '<form method="POST" action="editar_vaga_form.php" style="">';
-          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
-          echo '<input type="hidden" name="Titulo" value="' . $row['Titulo'] . '">';
-          echo '<input type="hidden" name="Descricao" value="' . $row['Descricao'] . '">';
-          echo '<button type="submit">Editar</button>';
-          echo '</form>';
-          echo '<form method="POST" action="solicitacoes.php" style="">';
-          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
-          echo '<button type="submit">Ver Solicitações</button>';
-          echo '</form>';
-          echo '<form method="POST" action="excluir_vaga.php" style="">';
-          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
-          echo '<button class="excluir" type="submit" style="background: red;">Encerra vaga</button>';
-          echo '</form>';
-          echo '</div>';
-          echo '</li>';
+        $rows = mysqli_num_rows($result);
+
+        if ($rows>0) {
+          while ($row = mysqli_fetch_assoc($result)) {
+            echo '<li class="list-group-item" >';
+            echo '<div>' . "<h5>Título</h5>" . $row['Titulo'] . '</div>';
+            echo '<div>' . "<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
+            echo '<div class="botao">';
+            echo '<form method="POST" action="editar_vaga_form.php" style="">';
+            echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
+            echo '<input type="hidden" name="Titulo" value="' . $row['Titulo'] . '">';
+            echo '<input type="hidden" name="Descricao" value="' . $row['Descricao'] . '">';
+            echo '<button type="submit">Editar</button>';
+            echo '</form>';
+            echo '<form method="POST" action="solicitacoes.php" style="">';
+            echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
+            echo '<button type="submit">Ver Solicitações</button>';
+            echo '</form>';
+            echo '<form method="POST" action="encerrar_vaga.php" style="">';
+            echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
+            echo '<button class="excluir" type="submit" style="background: red;">Encerrar Vaga</button>';
+            echo '</form>';
+            echo '</div>';
+            echo '</li>';
+          }
         }
+
+        else {
+            echo 'Você não possui vagas ativas no momento';
+        }
+
+        $sql2 = "SELECT * from Vaga where VagaStatus = false and EmpresaID = " . $_SESSION["id"] . ";";
+        $result2 = mysqli_query($conn, $sql2);
+        $rows2 = mysqli_num_rows($result2);
+
+        if ($rows2>0) {
+          while ($row2 = mysqli_fetch_assoc($result2)) {
+            echo '<h2>Vagas Encerradas</h2>';
+            echo '<li class="list-group-item" >';
+            echo '<div style="opacity: 0.4;">' . "<h5>Título</h5>" . $row2['Titulo'] . '</div>';
+            echo '<div style="opacity: 0.4;">' . "<br><h5>Descrição</h5>" . $row2['Descricao'] . '</div>';
+            echo '<div class="botao">';
+            echo '<form method="POST" action="reativar_vaga.php" style="">';
+            echo '<input type="hidden" name="vaga_id" value="' . $row2['ID'] . '">';
+            echo '<button type="submit">Reativar Vaga</button>';
+            echo '</form>';
+            echo '<form method="POST" action="excluir_vaga.php" style="">';
+            echo '<input type="hidden" name="vaga_id" value="' . $row2['ID'] . '">';
+            echo '<button class="excluir" type="submit" style="background: red;">Excluir Vaga</button>';
+            echo '</form>';
+            echo '</div>';
+            echo '</li>';
+          }
+        }
+
         ?>
       </ul>
 
@@ -140,7 +173,7 @@ include("componentes/header.php");
   }
 
   input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #002c5b;
   }
 
   button[type="submit"] {
@@ -155,7 +188,7 @@ include("componentes/header.php");
   }
 
   button[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #002c5b;
   }
 
   .btn {

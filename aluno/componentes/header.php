@@ -108,9 +108,6 @@ if (isset($_POST['logout'])) {
                     <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'candidaturas.php')) echo 'active'; ?>">
                         <a class="nav-link" href="candidaturas.php">Minhas Vagas</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Relatórios</a>
-                    </li>
                 </ul>
             </div>
             <style>

@@ -8,6 +8,7 @@
         $Curso = $_POST['curso'];
         $Setor = $_POST['setor'];
         $Turno = $_POST['turno'];
+        $VagaStatus = true;
         $DataPeriodoFinal = $_POST['periodo_inicio'];
         $DataPeriodoFinal = $_POST['periodo_final'];
         $DataEstagioInicio = $_POST['estagio_inicio'];
@@ -21,6 +22,7 @@
     Curso ,
 	Setor ,
 	Turno,
+    VagaStatus,
 	DataPeriodoInicio,
     DataPeriodoFinal ,
 	DataEstagioInicio ,
@@ -34,6 +36,7 @@
      '$Curso',
      '$Setor',
      '$Turno',
+     '$VagaStatus',
      '$DataPeriodoFinal',
      '$DataPeriodoFinal',
      '$DataEstagioInicio',
@@ -80,7 +83,6 @@
 
           <label for="">Turno:</label>
           <select class="form-select" name="turno" required>
-              <option selected>Turno</option>
               <option value="Manhã" selected>Manhã</option>
               <option value="Tarde">Tarde</option>
               <option value="Noite">Noite</option>

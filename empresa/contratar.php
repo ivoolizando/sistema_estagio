@@ -64,6 +64,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
         '$valor'
     )";
     $result = mysqli_query($conn, $sqlInsert);
+    if ($conn->query($sqlInsert) === TRUE) {
+        echo "<script type='text/javascript'>
+        alert('Aluno contratado para a vaga!');
+        window.location.href = 'vagas.php';
+        </script>";
+        exit();
+    } else {
+        echo "Erro: " . $sqlInsert . "<br>" . $conn->error;
+    }
 }
 $conn->close();
 ?>
@@ -101,7 +110,7 @@ $conn->close();
         <input type="number" value="<?php echo $valor ?>">
         <br>
         <label>Descrição:</label>
-        <textarea class="area"><?php echo $descricao ?></textarea>
+        <textarea class="area"><?=$descricao?></textarea>
 
         <input type="hidden" name="aluno_id" value="<?php echo $alunoId ?>">
         <input type="hidden" name="vaga_id" value="<?php echo $vaga_id ?>">
