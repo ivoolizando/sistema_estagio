@@ -1,7 +1,6 @@
 <?php
-session_start();
 include("conexao.php");
-
+session_start();
 // Aqui vai inserir os dados do formulário no banco de dados
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
@@ -113,6 +112,7 @@ $conn->close();
         <input type="password" id="password" name="confirmarsenha" required><br><br>
 
         <input type="submit" value="Cadastrar">
+
     </form>
 </body>
 
