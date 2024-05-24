@@ -5,9 +5,15 @@ include("../conexao.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $titulo = mysqli_real_escape_string($conn, $_POST['Titulo']);
   $descricao = mysqli_real_escape_string($conn, $_POST['Descricao']);
+  $curso = mysqli_real_escape_string($conn, $_POST['Curso']);
+  $turno = mysqli_real_escape_string($conn, $_POST['Turno']);
+  $setor = mysqli_real_escape_string($conn, $_POST['Setor']);
+  $periodoselecao = mysqli_real_escape_string($conn, $_POST['PeriodoSelecao']);
+  $periodoestagio = mysqli_real_escape_string($conn, $_POST['PeriodoEstagio']);
+  $valorbolsa = mysqli_real_escape_string($conn, $_POST['ValorBolsa']);
 
   if ($titulo != null && $descricao != null) {
-    $sql = "INSERT INTO Vaga (Titulo, Descricao, EmpresaID) VALUES ('$titulo', '$descricao', " . $_SESSION["id"] . ");";
+    $sql = "INSERT INTO Vagas (Titulo, Descricao, Curso, Turno, Setor, PeriodoSelecao, PeriodoEstagio, ValorBolsa, EmpresaID) VALUES ('$titulo', '$descricao', '$curso', '$turno','$setor', '$periodoselecao','$periodoestagio', '$valorbolsa', " . $_SESSION["id"] . ");";
     $result = mysqli_query($conn, $sql);
     $_SESSION['mensagem'] = "Vaga adicionada!";
   }
@@ -20,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastrar Vaga</title>
+  <title>Document</title>
 </head>
 <?php
 include("componentes/header.php");
@@ -58,7 +64,8 @@ include("componentes/header.php");
 
     input[type="password"],
     input[type="text"],
-    input[type="file"] {
+    input[type="file"],
+    select {
       width: 100%;
       padding: 12px 20px;
       margin: 8px 0;
@@ -80,7 +87,7 @@ include("componentes/header.php");
     }
 
     input[type="submit"]:hover {
-      background-color: #002c5b;
+      background-color: #45a049;
     }
 
     button[type="submit"] {
@@ -95,22 +102,15 @@ include("componentes/header.php");
     }
 
     button[type="submit"]:hover {
-      background-color: #002c5b;
+      background-color: #45a049;
     }
   </style>
-  <h2>CADASTRAR NOVA VAGA</h2>
+  <a href="criar_vagas.php"><button>Cadastrar nova Vaga</button></a>
 
   <?php if (isset($_SESSION['mensagem'])) {
     echo '<script> alert("' . $_SESSION['mensagem'] . '"); window.location.href = "vagas.php";</script>';
     unset($_SESSION['mensagem']);
   } ?>
-
-  <form class="content" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
-    Título: <input type="text" name="Titulo" required>
-    <br>
-    Descrição   <textarea name="textarea" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-    <input --bs-primary type="submit">
-  </form>
 
   <body>
     <br>
