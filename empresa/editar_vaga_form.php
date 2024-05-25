@@ -50,10 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="Titulo" value="<?php echo  $Titulo; ?>" required>
 
         <label for="">Turno:</label>
-        <input type="text" name="Turno" value="<?php echo  $Turno; ?>" required>
+        <select class="form-select form-control" name="Turno" required>
+              <option value="Manhã" <?php if($Turno=='Manhã'){ echo 'selected';}?> >Manhã</option>
+              <option value="Tarde" <?php if($Turno=='Tarde'){ echo 'selected';}?> >Tarde</option>
+              <option value="Noite" <?php if($Turno=='Noite'){ echo 'selected';}?> >Noite</option>
+          </select><br>
 
         <label for="">Curso:</label>
-        <input type="text" name="Curso" value="min<?php echo  $Curso; ?>" required>
+        <input type="text" name="Curso" value="<?php echo  $Curso; ?>" required>
 
         <label for="">Setor:</label>
         <input type="text" name="Setor" value="<?php echo  $Setor; ?>" required>
@@ -71,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="">Final do estagio:</label>
             <input type="date" name="DataEstagioFinal" value="<?php echo  $DataEstagioFinal; ?>" required>
         </div>
-
 
         <label for="">Valor da bolsa:</label>
         <input type="text" id="ValorBolsa" name="ValorBolsa" value="<?php echo $ValorBolsa; ?>" required onkeyup="formatarMoeda(this);">

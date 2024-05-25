@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
     (
         EmpresaID,
         AlunoID,
+        VagaID,
         Curso,
         Setor,
         Turno,
@@ -54,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
     VALUES (
         '$empresa',
         '$alunoId',
+        '$vaga_id',
         '$curso',
         '$setor',
         '$turno',
@@ -63,11 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
         '$estagio_final',
         '$valor'
     )";
-    $result = mysqli_query($conn, $sqlInsert);
     if ($conn->query($sqlInsert) === TRUE) {
         echo "<script type='text/javascript'>
         alert('Aluno contratado para a vaga!');
-        window.location.href = 'vagas.php';
+        window.location.href = 'contratos.php';
         </script>";
         exit();
     } else {

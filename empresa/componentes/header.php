@@ -24,6 +24,9 @@ if(isset($_POST['logout'])) {
                 <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'cursos.php')) echo 'active'; ?>">
                     <a class="nav-link" href="cursos.php">Cursos</a>
                 </li>
+                <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'contratos.php')) echo 'active'; ?>">
+                    <a class="nav-link" href="contratos.php">Contratos</a>
+                </li>
                 <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'relatorios.php')) echo 'active'; ?>">
                     <a class="nav-link" href="relatorios.php">Relatórios</a>
                 </li>
