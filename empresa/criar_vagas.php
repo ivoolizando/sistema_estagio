@@ -9,10 +9,10 @@
         $Setor = $_POST['setor'];
         $Turno = $_POST['turno'];
         $VagaStatus = true;
-        $DataPeriodoFinal = $_POST['periodo_inicio'];
+        $DataPeriodoInicio = $_POST['periodo_inicio'];
         $DataPeriodoFinal = $_POST['periodo_final'];
         $DataEstagioInicio = $_POST['estagio_inicio'];
-        $DataEstagioFianal = $_POST['estagio_final'];
+        $DataEstagioFinal = $_POST['estagio_final'];
         $Valor = $_POST['valor'];
         $Empresa_id = $_SESSION['id'];
 
@@ -37,10 +37,10 @@
      '$Setor',
      '$Turno',
      '$VagaStatus',
-     '$DataPeriodoFinal',
+     '$DataPeriodoInicio',
      '$DataPeriodoFinal',
      '$DataEstagioInicio',
-     '$DataEstagioFianal',
+     '$DataEstagioFinal',
      '$Valor',
      '$Empresa_id');";
 
@@ -88,10 +88,10 @@
               <option value="Noite">Noite</option>
           </select>
 
-          <label for="">Periodo Inicio:</label>
+          <label for="">Periodo de Seleção Inicial:</label>
           <input type="date" name="periodo_inicio">
 
-          <label for="">Periodo Final:</label>
+          <label for="">Periodo de Seleção Final:</label>
           <input type="date" name="periodo_final">
 
           <label for="">Inicio do estagio:</label>

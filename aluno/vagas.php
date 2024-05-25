@@ -16,7 +16,7 @@ include("componentes/header.php");
 ?>
 
 <body>
-<style>
+    <style>
         body {
             font-family: Arial, sans-serif;
         }
@@ -85,12 +85,17 @@ include("componentes/header.php");
 
         button[type="submit"]:hover {
             background-color: #002c5b;
-            
+
         }
     </style>
     <div class="content"></div>
     <ul class="list-group">
         <?php
+        function formatDate($date)
+        {
+            return date("d/m/Y", strtotime($date));
+        }
+
         $usuario = $_SESSION['id'];
         $sql = "SELECT *
         FROM Vaga
@@ -100,15 +105,19 @@ include("componentes/header.php");
         if ($rows > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo '<li class="list-group-item"><h4>' . $row['Titulo'] . '</h4><p>' . $row['Descricao'] . '</p>';
+                echo ' <p>Curso: ' . $row['Curso'] . ' </p> ';
+                echo ' <p>Turno: ' . $row['Turno'] . ' </p> ';
+                echo ' <p>Bolsa: R$ ' . $row['ValorBolsa'] . ' </p> ';
+                echo ' <p>Data Periodo Inicio: ' . formatDate($row['DataPeriodoInicio']) . ' </p> ';
+                echo ' <p>Data Periodo Final: ' . formatDate($row['DataPeriodoFinal']) . ' </p> ';
                 echo '<form action="candidatura.php" method="post">';
                 echo '<input type="hidden" name="vagaId" value="' . $row['ID'] . '">';
                 echo '<input type="hidden" name="usuarioId" value="' . $usuario . '">';
                 echo '<input type="submit" class="btn btn-primary float-right" value="Candidatar-se">';
                 echo '</form></li>';
             }
-        }
-        else{
-        echo '<br> <br> <h2>Não há vagas disponíveis no momento.</h2>';
+        } else {
+            echo '<br> <br> <h2>Não há vagas disponíveis no momento.</h2>';
         }
         ?>
 

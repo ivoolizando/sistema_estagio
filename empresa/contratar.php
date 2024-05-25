@@ -4,6 +4,7 @@ include("../conexao.php");
 include("componentes/header.php");
 $alunoId = $_POST['aluno_id'];
 $vaga_id = $_POST['vaga_id'];
+$solicitacao_id = $_POST['solicitacao_id'];
 $empresa = $_SESSION['id'];
 
 $sql = "SELECT 
@@ -65,6 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
         '$estagio_final',
         '$valor'
     )";
+
+    $sqlSolicitacao = 'update solicitacoes set status ="vinculado" where id =' . $solicitacao_id
+        . ';';
+    $resultsolicitacao = mysqli_query($conn, $sqlSolicitacao);
+
+
     if ($conn->query($sqlInsert) === TRUE) {
         echo "<script type='text/javascript'>
         alert('Aluno contratado para a vaga!');
@@ -111,10 +118,11 @@ $conn->close();
         <input type="number" value="<?php echo $valor ?>">
         <br>
         <label>Descrição:</label>
-        <textarea class="area"><?=$descricao?></textarea>
+        <textarea class="area"><?= $descricao ?></textarea>
 
         <input type="hidden" name="aluno_id" value="<?php echo $alunoId ?>">
         <input type="hidden" name="vaga_id" value="<?php echo $vaga_id ?>">
+        <input type="hidden" name="solicitacao_id" value="<?php echo $solicitacao_id ?>">
 
         <input --bs-primary type="submit" name="contratacao">
     </form>
