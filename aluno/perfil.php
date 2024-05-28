@@ -92,10 +92,8 @@ $conn->close();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 
-
-
 <body>
-        <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
         }
@@ -109,7 +107,6 @@ $conn->close();
             display: flex;
             flex-direction: column;
             align-items: center;
-
         }
 
         .list-group-item {
@@ -153,7 +150,7 @@ $conn->close();
 
         button[type="submit"] {
             width: auto;
-           background-color: #002c5b;
+            background-color: #002c5b;
             color: white;
             padding: 14px 20px;
             margin: 8px 0;
@@ -183,62 +180,36 @@ $conn->close();
         </div>
 
         <div class="container" style="width: 35rem;">
-        <h2 class="my-3">Editar Perfil</h2>
+            <h2 class="my-3">Editar Perfil</h2>
 
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="mb-3">
-            <div class="form-group">
-                <label>Nome:</label>
-                <input class="form-control" type="text" name="nome" value="<?php echo $nome; ?>">
-            </div>
-            <div class="form-group">
-                <label>Telefone:</label>
-                <input class="form-control" type="text" name="telefone" value="<?php echo $telefone; ?>">
-            </div>
-            <div class="form-group">
-                <label>Email:</label>
-                <input class="form-control" type="text" name="email" value="<?php echo $email; ?>">
-            </div>
-            <div class="form-group">
-                <label>Endereço:</label>
-                <input class="form-control" type="text" name="endereco" value="<?php echo $endereco; ?>">
-            </div>
-            <div class="form-group">
-                <label>Estado:</label>
-                <input class="form-control" type="text" name="estado" value="<?php echo $estado; ?>">
-            </div>
-            <div class="form-group">
-                <label>Cidade:</label>
-                <input class="form-control" type="text" name="cidade" value="<?php echo $cidade; ?>">
-            </div>
-            <div class="form-group">
-                <label>Bairro:</label>
-                <input class="form-control" type="text" name="bairro" value="<?php echo $bairro; ?>">
-            </div>
-            <input class="btn btn-primary" type="submit" name="edit_profile" value="Salvar">
-        </form>
-        </div>
-
-        <br>
-
-        <div class="container" style="width: 35rem;">
-        <h2 class="my-3">Alterar Senha</h2>
-
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <div class="form-group">
-                <label>Nova Senha:</label>
-                <input class="form-control" type="password" name="senha">
-            </div>
-            <div class="form-group">
-                <label>Confirmar Nova Senha:</label>
-                <input class="form-control" type="password" name="confirmarsenha">
-            </div>
-            <input class="btn btn-primary" type="submit" name="change_password" value="Alterar Senha">
-        </form>
-        </div>
-
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    </div>
-</body>
-
-</html>
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="mb-3">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input class="form-control" type="text" name="nome" value="<?php echo $nome; ?>">
+                </div>
+                <div class="form-group">
+                    <label>Telefone:</label>
+                    <input class="form-control" type="text" name="telefone" value="<?php echo $telefone; ?>">
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input class="form-control" type="text" name="email" value="<?php echo $email; ?>">
+                </div>
+                <div class="form-group">
+                    <label>Endereço:</label>
+                    <input class="form-control" type="text" name="endereco" value="<?php echo $endereco; ?>">
+                </div>
+                <div class="form-group">
+                    <label>Estado:</label>
+                    <input class="form-control" type="text" name="estado" value="<?php echo $estado; ?>">
+                </div>
+                <div class="form-group">
+                    <label>Cidade:</label>
+                    <input class="form-control" type="text" name="cidade" value="<?php echo $cidade; ?>">
+                </div>
+                <div class="form-group">
+                    <label>Bairro:</label>
+                    <input class="form-control" type="text" name="bairro" value="<?php echo $bairro; ?>">
+                </div>
+                <input class="btn btn-primary" type="submit" name="edit_profile" value="Salvar">
+        

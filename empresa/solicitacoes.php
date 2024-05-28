@@ -26,7 +26,14 @@ include("componentes/header.php");
     <div class="content"></div>
     <ul class="list-group">
         <?php
-        $vagaId = $_POST['vaga_id'];
+        if(isset($_SESSION['vaga_id'])) {
+
+            $vagaId = $_SESSION['vaga_id'];
+            unset($_SESSION['vaga_id']);
+        }
+        else {
+            $vagaId = $_POST['vaga_id'];
+        }
         $usuario = $_SESSION['id'];
         $sql = "SELECT solicitacoes.id as solicitacao_id , Aluno.ID as AlunoID, Aluno.Nome as Aluno, Aluno.Email as EmailAluno, Aluno.Curriculo as Curriculo, Vaga.ID as Vaga, Vaga.Titulo as VagaTitulo, solicitacoes.status as status 
         FROM solicitacoes 
@@ -39,13 +46,27 @@ include("componentes/header.php");
         if ($rows>0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo '<li class="list-group-item"><h4>' . $row['Aluno'] . '</h4><p>' . $row['EmailAluno'] . '</p><a target="_blank" href="../' . $row['Curriculo'] . '"><button style="margin-bottom:10px;">Ver Currículo</button></a><h5>Vaga: ' . $row['VagaTitulo'] . '</h5><h5>Status: ' . $row['status'] . '</h5>';
+                if (isset($_SESSION['mensagem'])) {
+                    echo '<div class="alert alert-danger" role="alert">
+                                ' . $_SESSION['mensagem'] . '
+                              </div>';
+                    unset($_SESSION['mensagem']);
+                }
+                if ($row['status']=='pendente') {
                 echo '<form action="contratar.php" method="post">';
                 echo '<input type="hidden" name="aluno" value="' . $row['Aluno'] . '">';
                 echo '<input type="hidden" name="aluno_id" value="' . $row['AlunoID'] . '">';
                 echo '<input type="hidden" name="vaga_id" value="' . $row['Vaga'] . '">';
                 echo '<input type="hidden" name="solicitacao_id" value="' . $row['solicitacao_id'] . '">';
                 echo '<input type="submit" name="dados" class="btn btn-primary float-right" value="Contratar">';
-                echo '</form></li>';
+                echo '</form>';
+                echo '<form action="recusar.php" method="post">';
+                echo '<input type="hidden" name="vaga_id" value="' . $row['Vaga'] . '">';
+                echo '<input type="hidden" name="solicitacao_id" value="' . $row['solicitacao_id'] . '">';
+                echo '<input type="submit" name="recusar" class="btn btn-primary float-right" value="Recusar candidatura">';
+                echo '</form>';
+                }
+                echo '</li>';
             }
         }
 

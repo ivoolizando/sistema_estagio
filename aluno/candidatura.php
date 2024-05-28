@@ -34,8 +34,13 @@ session_start();
     <?php
     $usuarioId = $_POST['usuarioId'];
     $vagaId = $_POST['vagaId'];
+    $dataAtual = date_create()->format('Y-m-d');
 
-    $sql = "INSERT INTO solicitacoes (status,aluno_id, vaga_id) VALUES ('pendente',$usuarioId, $vagaId)";
+    $sqlEmpresa = "select Empresa.ID as Empresa from Vaga inner join Empresa on Vaga.EmpresaID = Empresa.ID where Vaga.ID = ".$vagaId.";";
+    $resultEmpresa = mysqli_query($conn, $sqlEmpresa);
+    $rowEmpresa = mysqli_fetch_array($resultEmpresa);
+
+    $sql = "INSERT INTO solicitacoes (status,aluno_id, vaga_id, empresa_id, data_solicitacao) VALUES ('pendente',$usuarioId, $vagaId, ".$rowEmpresa["Empresa"].", '$dataAtual')";
     if (mysqli_query($conn, $sql)) {
         echo "Candidatura realizada com sucesso!<br>";
         echo "<a href='candidaturas.php'><button type='submit'>Ver minhas candidaturas</button></a>";

@@ -4,57 +4,52 @@ include("conexao.php");
 
 // Obtém os dados do formulário
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = $_POST["nome"];
-    $telefone = $_POST["telefone"];
-    $email = $_POST["email"];
-    $senha = $_POST["senha"];
-    $confirmarsenha = $_POST["confirmarsenha"];
-    $endereco = $_POST["endereco"];
-    $estado = $_POST["estado"];
-    $cidade = $_POST["cidade"];
-    $bairro = $_POST["bairro"];
-    $curriculo = $_FILES["cv"]["name"];
+  $nome = $_POST["nome"];
+  $telefone = $_POST["telefone"];
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
+  $confirmarsenha = $_POST["confirmarsenha"];
+  $endereco = $_POST["endereco"];
+  $estado = $_POST["estado"];
+  $cidade = $_POST["cidade"];
+  $bairro = $_POST["bairro"];
+  $curriculo = $_FILES["cv"]["name"];
 
-    // Verifica se a pasta de uploads existe, senão cria
-    $target_dir = "uploads/";
-    if (!file_exists($target_dir)) {
-        mkdir($target_dir, 0777, true);
-    }
+  // Verifica se a pasta de uploads existe, senão cria
+  $target_dir = "uploads/";
+  if (!file_exists($target_dir)) {
+    mkdir($target_dir, 0777, true);
+  }
 
-    // Obtém a extensão do arquivo
-    $file_extension = pathinfo($_FILES["cv"]["name"], PATHINFO_EXTENSION);
+  // Obtém a extensão do arquivo
+  $file_extension = pathinfo($_FILES["cv"]["name"], PATHINFO_EXTENSION);
 
-    // Cria um nome de arquivo com base no e-mail do aluno
-    $new_filename = $email . "." . $file_extension;
-    $target_file = $target_dir . $new_filename;
+  // Cria um nome de arquivo com base no e-mail do aluno
+  $new_filename = $email . "." . $file_extension;
+  $target_file = $target_dir . $new_filename;
 
-    // Move o arquivo para o diretório de uploads
-    move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file);
+  // Move o arquivo para o diretório de uploads
+  move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file);
 
-    // Criptografa a senha
-    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+  // Criptografa a senha
+  $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
-    if ($senha == $confirmarsenha) {
-        $sql = "INSERT INTO Aluno (nome, telefone, email, senha, endereco, estado, cidade, bairro, curriculo)
+  if ($senha == $confirmarsenha) {
+    $sql = "INSERT INTO Aluno (nome, telefone, email, senha, endereco, estado, cidade, bairro, curriculo)
                 VALUES ('$nome', '$telefone', '$email', '$senha_hash', '$endereco', '$estado', '$cidade', '$bairro', '$target_file')";
 
-        if ($conn->query($sql) === TRUE) {
-            $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
-            echo "<script type='text/javascript'>
-                    alert('Cadastro realizado com sucesso!');
-                    window.location.href = 'login.php';
-                  </script>";
-            exit();
-        } else {
-            echo "Erro: " . $sql . "<br>" . $conn->error;
-        }
+    if ($conn->query($sql) === TRUE) {
+      $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
+      header('Location: login.php');
+      exit();
     } else {
-        echo "<script type='text/javascript'>
-                alert('Senhas não são iguais!');
-                window.location.href = 'cadastroAluno.php';
-              </script>";
-        exit();
+      echo '<div class="alert alert-danger" role="alert">
+                    Erro: ' . $sql . '<br>' . $conn->error . '
+                  </div>';
     }
+  } else {
+    $_SESSION['mensagemerro'] = 'Senhas não são iguais!';
+  }
 }
 
 $conn->close();
@@ -112,10 +107,14 @@ $conn->close();
       background-color: #45a049;
     }
   </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </head>
 
 <body>
+<a href="login.php"><button class="btn btn-primary">Voltar</button></a>
   <h2>CADASTRO DE ALUNO</h2>
 
   <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
@@ -129,6 +128,14 @@ $conn->close();
     <br>
     Confirmar Senha: <input type="password" name="confirmarsenha">
     <br>
+    <?php
+    if (isset($_SESSION['mensagemerro'])) {
+      echo '<div class="alert alert-danger" role="alert">
+                  ' . $_SESSION['mensagemerro'] . '
+                </div>';
+      unset($_SESSION['mensagemerro']);
+    }
+    ?>
     Endereço: <input type="text" name="endereco">
     <br>
     Estado: <input type="text" name="estado">
@@ -140,12 +147,3 @@ $conn->close();
     Currículo/CV: <input type="file" name="cv">
     <br>
     <input --bs-primary type="submit">
-  </form>
-
-
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-</body>
-
-</html>
