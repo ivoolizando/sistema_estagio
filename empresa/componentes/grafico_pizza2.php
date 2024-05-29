@@ -14,21 +14,20 @@ if (isset($_SESSION['filtroInicio']) && isset($_SESSION['filtroFim'])) {
     WHERE status = 'pendente' AND
     data_solicitacao >= '$filtroInicio' AND
     data_solicitacao <= '$filtroFim' AND
-    empresa_id = 1;";
+    empresa_id = ".$_SESSION["id"].";";
     $result3 = mysqli_query($conn, $sql3);
 
     $sql4 = "SELECT COUNT(*) AS total FROM solicitacoes 
     WHERE status = 'vinculado' AND
     data_solicitacao >= '$filtroInicio' AND
     data_solicitacao <= '$filtroFim' AND
-    empresa_id = 1;";
+    empresa_id = ".$_SESSION["id"].";";
     $result4 = mysqli_query($conn, $sql4);
 
     $sql5 = "SELECT COUNT(*) AS total FROM solicitacoes 
     WHERE status = 'despachado' AND
     data_solicitacao >= '$filtroInicio' AND
-    data_solicitacao <= '$filtroFim' AND
-    empresa_id = 1;";
+    empresa_id = ".$_SESSION["id"].";";
     $result5 = mysqli_query($conn, $sql5);
 
 } else {
@@ -37,17 +36,17 @@ if (isset($_SESSION['filtroInicio']) && isset($_SESSION['filtroFim'])) {
 
    $sql3 = "SELECT COUNT(*) AS total FROM solicitacoes 
    WHERE status = 'pendente' AND
-   empresa_id = 1;";
+   empresa_id = ".$_SESSION["id"].";";
    $result3 = mysqli_query($conn, $sql3);
 
    $sql4 = "SELECT COUNT(*) AS total FROM solicitacoes 
    WHERE status = 'vinculado' AND
-   empresa_id = 1;";
+   empresa_id = ".$_SESSION["id"].";";
    $result4 = mysqli_query($conn, $sql4);
 
    $sql5 = "SELECT COUNT(*) AS total FROM solicitacoes 
    WHERE status = 'despachado' AND
-   empresa_id = 1;";
+   empresa_id = ".$_SESSION["id"].";";
    $result5 = mysqli_query($conn, $sql5);
     
 }
@@ -61,13 +60,15 @@ if ($result3) {
 
 if ($result4) {
     $row4 = mysqli_fetch_assoc($result4);
-    $candidaturasCanceladas = $row4['total']; // Valor real da contagem
+    $candidaturasVinculadas = $row4['total']; // Valor real da contagem
 }
 
 if ($result5) {
     $row5 = mysqli_fetch_assoc($result5);
-    $candidaturasVinculadas = $row5['total']; // Valor real da contagem
+    $candidaturasCanceladas = $row5['total']; // Valor real da contagem
 }
+
+$totalCandidaturas = $candidaturasPendentes + $candidaturasVinculadas + $candidaturasCanceladas;
 
 ?>
 <html>
@@ -89,22 +90,23 @@ if ($result5) {
                         echo "['Candidaturas pendentes', ".$candidaturasPendentes."],";
                     }
                     if($candidaturasCanceladas>0) {
-                        echo "['Candidaturas pendentes', ".$candidaturasCanceladas."],";
+                        echo "['Candidaturas canceladas', ".$candidaturasCanceladas."],";
                     }
                     if($candidaturasVinculadas>0) {
-                        echo "['Candidaturas pendentes', ".$candidaturasVinculadas."],";
+                        echo "['Candidaturas vinculadas', ".$candidaturasVinculadas."],";
                     }                
                 ?>
             ]);
 
             var options2 = {
-                title: 'Gráfico de Status de Solicitações:',
+                title: 'Gráfico de Status de Solicitações: (Total <?=$totalCandidaturas?>)',
                 pieHole: 0.4,
                 legend: {
                     position: 'left',
                     alignment: 'center',
                     orientation: 'horizontal',
-                }
+                },
+                colors: ['orange', 'red', 'green'],
             };
 
             var chart2 = new google.visualization.PieChart(document.getElementById('donutchart2'));

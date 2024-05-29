@@ -14,24 +14,24 @@ if (isset($_SESSION['filtroInicio']) && isset($_SESSION['filtroFim'])) {
     WHERE VagaStatus = 1 AND
     DataPeriodoInicio >= '$filtroInicio' AND
     DataPeriodoInicio <= '$filtroFim' AND
-    EmpresaID = 1;";
+    EmpresaID = ".$_SESSION["id"].";";
     $result = mysqli_query($conn, $sql);
 
     $sql2 = "SELECT COUNT(*) AS total FROM Vaga 
     WHERE VagaStatus = 0 AND
     DataPeriodoInicio >= '$filtroInicio' AND
     DataPeriodoInicio <= '$filtroFim' AND
-    EmpresaID = 1;";
+    EmpresaID = ".$_SESSION["id"].";";
     $result2 = mysqli_query($conn, $sql2);
 
 } else {
 
     // Gráfico 1 sem filtros
 
-    $sql = "SELECT COUNT(*) AS total FROM Vaga WHERE VagaStatus = 1 AND EmpresaID = 1;";
+    $sql = "SELECT COUNT(*) AS total FROM Vaga WHERE VagaStatus = 1 AND EmpresaID = ".$_SESSION["id"].";";
     $result = mysqli_query($conn, $sql);
 
-    $sql2 = "SELECT COUNT(*) AS total FROM Vaga WHERE VagaStatus = 0 AND EmpresaID = 1;";
+    $sql2 = "SELECT COUNT(*) AS total FROM Vaga WHERE VagaStatus = 0 AND EmpresaID = ".$_SESSION["id"].";";
     $result2 = mysqli_query($conn, $sql2);
 
     
@@ -48,6 +48,8 @@ if ($result2) {
     $row2 = mysqli_fetch_assoc($result2);
     $VagasInativas = $row2['total']; // Valor real da contagem
 }
+
+$totalVagas = $VagasAtivas + $VagasInativas;
 
 ?>
 <html>
@@ -75,13 +77,14 @@ if ($result2) {
             ]);
 
             var options = {
-                title: 'Gráfico de Status de Vagas:',
+                title: 'Gráfico de Status de Vagas: (Total <?=$totalVagas?> Vagas)',
                 pieHole: 0.4,
                 legend: {
                     position: 'left',
                     alignment: 'center',
                     orientation: 'horizontal',
-                }
+                },
+                colors: ['blue', 'red'],
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('donutchart'));

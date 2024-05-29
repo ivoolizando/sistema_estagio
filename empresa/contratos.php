@@ -40,6 +40,8 @@ include("componentes/header.php");
         Contratado.Turno as Turno,
         Contratado.DataEstagioInicio as EstagioInicio,
         Contratado.DataEstagioFinal as EstagioFim,
+        Contratado.DataContratacao as DataContratacao,
+        Contratado.DataDespacho as DataDespacho,
         Contratado.ValorBolsa as Bolsa
         FROM Contratado
         INNER JOIN Empresa on Contratado.EmpresaID = Empresa.ID
@@ -59,13 +61,28 @@ include("componentes/header.php");
             echo '<div>' . "<br><h5>Turno</h5>" . $row['Turno'] . '</div>';
             echo '<div>' . "<br><h5>Data de início do estágio</h5>" . formatDate($row['EstagioInicio']) . '</div>';
             echo '<div>' . "<br><h5>Data término do estágio</h5>" . formatDate($row['EstagioFim']) . '</div>';
+            echo '<div>' . "<br><h5>Data de Contratação</h5>" . formatDate($row['DataContratacao']) . '</div>';
+            if ($row['DataDespacho']!=null) {
+            echo '<div>' . "<br><h5>Data de distrato</h5>" . formatDate($row['DataDespacho']) . '</div>';
+            }
             echo '<div>' . "<br><h5>Valor da Bolsa</h5>" . $row['Bolsa'] . '</div>';
+            if ($row['DataDespacho']!=null) {
+            echo '<br><div class="alert alert-danger" role="alert">
+                    Contrato encerrado.
+                  </div>';
+            }
             echo '<div class="botao">';
+            if ($row['DataDespacho']==null) {
             echo '<form method="POST" action="renovar_contrato.php" style="">';
             echo '<input type="hidden" name="contrato_id" value="' . $row['ContratoID'] . '">';
             echo '<input type="hidden" name="estagiodatafinal" value="' . $row['EstagioFim'] . '">';
             echo '<button type="submit">Renovar Contrato</button>';
             echo '</form>';
+            echo '<form method="POST" action="cancelar_contrato.php">';
+            echo '<input type="hidden" name="contrato_id" value="' . $row['ContratoID'] . '">';
+            echo '<button type="submit" style="background-color:red;">Cancelar Contrato</button>';
+            echo '</form>';
+            }
             // echo '<form method="POST" action="encerrar_vaga.php" style="">';
             // echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
             // echo '<button class="excluir" type="submit" style="background: red;">Encerrar Contrato</button>';

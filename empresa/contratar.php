@@ -6,6 +6,7 @@ $alunoId = $_POST['aluno_id'];
 $vaga_id = $_POST['vaga_id'];
 $solicitacao_id = $_POST['solicitacao_id'];
 $empresa = $_SESSION['id'];
+$data_atual = date_create()->format('Y-m-d');
 
 $sql = "SELECT 
 Vaga.Titulo as Vaga_titulo,
@@ -18,7 +19,7 @@ Vaga.DataEstagioFinal as Estagio_final,
 Vaga.ValorBolsa as Valor, 
 Vaga.Descricao as Descricao,
 Aluno.ID as Aluno, 
-Aluno.Curso as Curso
+Vaga.Curso as Curso
 FROM Vaga inner join Aluno WHERE Vaga.ID = " . $vaga_id . ";";
 $result = mysqli_query($conn, $sql);
 
@@ -51,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
         DataPeriodoFinal,
         DataEstagioInicio,
         DataEstagioFinal,
+        DataContratacao,
         ValorBolsa
     ) 
     VALUES (
@@ -64,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
         '$periodo_final',
         '$estagio_inicio',
         '$estagio_final',
+        '$data_atual',
         '$valor'
     )";
 

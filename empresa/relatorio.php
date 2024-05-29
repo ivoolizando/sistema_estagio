@@ -38,6 +38,7 @@ include('componentes/header.php');
     <?php 
     include('componentes/grafico_pizza.php');
     include('componentes/grafico_pizza2.php');
+    include('componentes/grafico_pizza3.php');
     ?>
     <div class="d-flex justify-content-between">
         <div id="donutchart" style="width: 600px; height: 400px;"></div>
