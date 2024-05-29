@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $curso_id = isset($_POST['curso_id']) ? mysqli_real_escape_string($conn, $_POST['curso_id']) : null;
     $video = mysqli_real_escape_string($conn, $_POST['Video']);
 
-    // Se cursos_id for definido, vai atualizar o registro no bd
+    
     if ($curso_id) {
         $sql = "UPDATE Curso SET Nome = '$titulo', Descricao = '$descricao', Video = '$video' WHERE ID = '$curso_id';";
         if (mysqli_query($conn, $sql)) {

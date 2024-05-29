@@ -2,7 +2,7 @@
 session_start();
 include("conexao.php");
 
-// Obtém os dados do formulário
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $nome = $_POST["nome"];
   $telefone = $_POST["telefone"];

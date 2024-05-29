@@ -45,15 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_profile'])) {
     $sql = "UPDATE Aluno SET Nome='$nome', Telefone='$telefone', Endereco='$endereco', Estado='$estado', Cidade='$cidade', Bairro='$bairro' WHERE ID='$usuario'";
 
     if ($conn->query($sql) === TRUE) {
-        echo "<script type='text/javascript'>
-                alert('Perfil atualizado com sucesso!');
-                window.location.href = 'perfil.php';
-              </script>";
+        $_SESSION['mensagem'] = 'Atualizado com sucesso';
     } else {
-        echo "<script type='text/javascript'>
-                alert('Erro ao atualizar perfil:".$conn->error."');
-                window.location.href = 'perfil.php';
-              </script>";
+        $_SESSION['mensagemerro'] = 'Alguma coisa deu errado';
     }
 }
 
@@ -67,18 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_password'])) {
         $sql = "UPDATE Aluno SET Senha='$senha' WHERE ID='$usuario'";
 
         if ($conn->query($sql) === TRUE) {
-            echo "<script type='text/javascript'>
-                alert('Senha alterada com sucesso!');
-                window.location.href = 'perfil.php';
-              </script>";
+            $_SESSION['mensagem'] = 'Atualizado com sucesso';
         } else {
-            echo "<script type='text/javascript'>
-                alert('Erro ao alterar senha:".$conn->error."');
-                window.location.href = 'perfil.php';
-              </script>";
+            $_SESSION['mensagemerro'] = 'Alguma coisa deu errado';
         }
     } else {
-        echo "As senhas não são iguais!";
+        $_SESSION['mensagemerro'] = 'Senhas não são iguais';
     }
 }
 
@@ -164,6 +152,20 @@ $conn->close();
         }
     </style>
     <div class="container">
+        <?php
+        if (isset($_SESSION['mensagem'])) {
+            echo '<div class="alert alert-success" role="alert">
+                  ' . $_SESSION['mensagem'] . '
+                  </div>';
+            unset($_SESSION['mensagem']);
+        }
+        if (isset($_SESSION['mensagemerro'])) {
+            echo '<div class="alert alert-danger" role="alert">
+                  ' . $_SESSION['mensagemerro'] . '
+                </div>';
+            unset($_SESSION['mensagemerro']);
+        }
+        ?>
         <h2 class="my-3">Perfil do Aluno</h2>
 
         <div class="card mb-3">
@@ -175,7 +177,7 @@ $conn->close();
                 <p><strong>Estado:</strong> <?php echo $estado; ?></p>
                 <p><strong>Cidade:</strong> <?php echo $cidade; ?></p>
                 <p><strong>Bairro:</strong> <?php echo $bairro; ?></p>
-                <p><strong>Currículo:</strong> <a target="_blank" href="<?php echo '../'.$curriculo; ?>">Download</a></p>
+                <p><strong>Currículo:</strong> <a target="_blank" href="<?php echo '../' . $curriculo; ?>">Download</a></p>
             </div>
         </div>
 
@@ -212,4 +214,3 @@ $conn->close();
                     <input class="form-control" type="text" name="bairro" value="<?php echo $bairro; ?>">
                 </div>
                 <input class="btn btn-primary" type="submit" name="edit_profile" value="Salvar">
-        

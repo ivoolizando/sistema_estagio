@@ -55,17 +55,17 @@ if (isset($_SESSION['filtroInicio']) && isset($_SESSION['filtroFim'])) {
 // Verifique se a consulta retornou algum resultado
 if ($result3) {
     $row3 = mysqli_fetch_assoc($result3);
-    $candidaturasPendentes = $row3['total']; // Valor real da contagem
+    $candidaturasPendentes = $row3['total'];
 }
 
 if ($result4) {
     $row4 = mysqli_fetch_assoc($result4);
-    $candidaturasVinculadas = $row4['total']; // Valor real da contagem
+    $candidaturasVinculadas = $row4['total']; 
 }
 
 if ($result5) {
     $row5 = mysqli_fetch_assoc($result5);
-    $candidaturasCanceladas = $row5['total']; // Valor real da contagem
+    $candidaturasCanceladas = $row5['total']; 
 }
 
 $totalCandidaturas = $candidaturasPendentes + $candidaturasVinculadas + $candidaturasCanceladas;

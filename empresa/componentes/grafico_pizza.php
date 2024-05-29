@@ -38,15 +38,15 @@ if (isset($_SESSION['filtroInicio']) && isset($_SESSION['filtroFim'])) {
 }
 
 
-// Verifique se a consulta retornou algum resultado
+
 if ($result) {
     $row = mysqli_fetch_assoc($result);
-    $VagasAtivas = $row['total']; // Valor real da contagem
+    $VagasAtivas = $row['total']; 
 }
 
 if ($result2) {
     $row2 = mysqli_fetch_assoc($result2);
-    $VagasInativas = $row2['total']; // Valor real da contagem
+    $VagasInativas = $row2['total'];
 }
 
 $totalVagas = $VagasAtivas + $VagasInativas;
