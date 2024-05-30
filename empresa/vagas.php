@@ -35,15 +35,23 @@ include("componentes/header.php");
 <body>
   <a href="criar_vagas.php"><button class="btn">Nova Vaga</button></a>
 
-  <?php if (isset($_SESSION['mensagem'])) {
-    echo '<script> alert("' . $_SESSION['mensagem'] . '"); window.location.href = "vagas.php";</script>';
-    unset($_SESSION['mensagem']);
-  } ?>
-
   <body>
     <br>
     <h2>Vagas Disponíveis</h2><br>
     <ul class="list-group">
+    <?php
+        if (isset($_SESSION['mensagem'])) {
+            echo '<div class="alert alert-success" role="alert">' . $_SESSION['mensagem'] . '
+            </div>';
+            unset($_SESSION['mensagem']);
+        }
+        if (isset($_SESSION['mensagemerro'])) {
+          echo '<div class="alert alert-danger" role="alert">' . $_SESSION['mensagemerro'] . '
+          </div>';
+          unset($_SESSION['mensagemerro']);
+      }
+    ?>
+
 
       <ul class="list-group">
         <?php

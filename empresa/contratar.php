@@ -76,10 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
 
 
     if ($conn->query($sqlInsert) === TRUE) {
-        echo "<script type='text/javascript'>
-        alert('Aluno contratado para a vaga!');
-        window.location.href = 'contratos.php';
-        </script>";
+        $_SESSION['mensagem'] = 'Contrato realizado com sucesso!';
+        header('Location: contratos.php');
         exit();
     } else {
         echo "Erro: " . $sqlInsert . "<br>" . $conn->error;
@@ -168,7 +166,7 @@ $conn->close();
     }
 
     input[type="submit"]:hover {
-        background-color: #45a049;
+        background-color: #002c5b;
     }
 
     .calendario {

@@ -102,7 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <h2>CADASTRAR NOVO CURSO</h2>
 
   <?php if (isset($_SESSION['mensagem'])) {
-    echo '<script> alert("' . $_SESSION['mensagem'] . '"); window.location.href = "cursos.php";</script>';
+    echo '<div class="alert alert-success" role="alert">' . $_SESSION['mensagem'] . '
+    </div>';
     unset($_SESSION['mensagem']);
   } ?>
 

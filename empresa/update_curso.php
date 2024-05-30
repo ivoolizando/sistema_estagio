@@ -12,10 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($curso_id) {
         $sql = "UPDATE Curso SET Nome = '$titulo', Descricao = '$descricao', Video = '$video' WHERE ID = '$curso_id';";
         if (mysqli_query($conn, $sql)) {
-            echo "<script type='text/javascript'>
-                alert('Curso Atualizado com sucesso!');
-                window.location.href = 'cursos.php';
-              </script>";
+            $_SESSION['mensagem'] = "Curso atualizado com sucesso!";
+            header('Location: cursos.php');
         }
     }
 } else {

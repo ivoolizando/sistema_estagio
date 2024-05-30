@@ -31,24 +31,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         Descricao = '$Descricao'
         WHERE ID = '$vaga_id';";
         if (mysqli_query($conn, $sql)) {
-            echo "<script type='text/javascript'>
-                alert('Vaga atualizada com sucesso!".$ValorBolsa_form."');
-                window.location.href = 'vagas.php';
-              </script>";
+            $_SESSION['mensagem'] = "Vaga atualizada com sucesso!";
+            header('Location: vagas.php');
         }
 
         else {
-            echo "<script type='text/javascript'>
-            alert('Ocorreu um erro ao atualizar a Vaga.');
-            window.location.href = 'vagas.php';
-            </script>";
+            $_SESSION['mensagemerro'] = "Erro ao atualizar a vaga.";
+            header('Location: vagas.php');
         }
     }
 } else {
-    echo "<script type='text/javascript'>
-    alert('Ocorreu um erro ao atualizar a Vaga.');
-    window.location.href = 'vagas.php';
-    </script>";
+    $_SESSION['mensagemerro'] = "Erro ao atualizar a vaga.";
+    header('Location: vagas.php');
     }
 
 ?>

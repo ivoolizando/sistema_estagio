@@ -9,10 +9,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if ($contrato_id != null) {
     $sql = "UPDATE Contratado SET DataDespacho = '$dataAtual' WHERE ID = '$contrato_id';";
     $result = mysqli_query($conn, $sql);
-    echo "<script type='text/javascript'>
-                    alert('Estágio Cancelado com sucesso!');
-                    window.location.href = 'contratos.php';
-                  </script>";
+    $_SESSION['message'] = 'Estágio Cancelado com sucesso!';
+    $_SESSION['msg_type'] = 'successo';
+    header("Location: contratos.php");
     exit();
   }
 }

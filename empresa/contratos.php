@@ -23,6 +23,14 @@ include("componentes/header.php");
     <h2>Meus Contratos</h2><br>
     <ul class="list-group">
 
+    <?php
+    if (isset($_SESSION['mensagem'])) {
+      echo '<div class="alert alert-success" role="alert">
+                  ' . $_SESSION['mensagem'] . '
+                </div>';
+      unset($_SESSION['mensagem']);
+    }
+    ?>
       <ul class="list-group">
         <?php
 

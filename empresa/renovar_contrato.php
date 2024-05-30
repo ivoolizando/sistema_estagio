@@ -10,10 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if ($contrato_id != null) {
     $sql = "UPDATE Contratado SET DataEstagioFinal = '$dataNova' WHERE ID = '$contrato_id';";
     $result = mysqli_query($conn, $sql);
-    echo "<script type='text/javascript'>
-                    alert('Estágio Renovado com sucesso!');
-                    window.location.href = 'contratos.php';
-                  </script>";
+    $_SESSION['mensagem'] = "Estágio renovado com sucesso!";
+    header('Location: contratos.php');
     exit();
   }
 }

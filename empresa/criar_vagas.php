@@ -45,10 +45,8 @@
      '$Empresa_id');";
 
         if ($conn->query($sql) === TRUE) {
-            echo "<script type='text/javascript'>
-            alert('Vaga criada com sucesso!');
-            window.location.href = 'vagas.php';
-            </script>";
+            $_SESSION['mensagem'] = "Vaga criada com sucesso!";
+            header('Location: vagas.php');
             exit();
         } else {
             echo "Erro: " . $sql . "<br>" . $conn->error;
