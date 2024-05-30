@@ -1,7 +1,19 @@
 <?php
+session_start();
 include("../conexao.php");
 include("componentes/header.php");
-session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $titulo = mysqli_real_escape_string($conn, $_POST['Titulo']);
+    $descricao = mysqli_real_escape_string($conn, $_POST['Descricao']);
+    $url = mysqli_real_escape_string($conn, $_POST['Url']);
+
+    if ($titulo != null && $descricao != null) {
+        $sql = "INSERT INTO Curso (Nome, Descricao, EmpresaID, Video) VALUES ('$titulo', '$descricao',' " . $_SESSION["id"] . "', '$url');";
+        $result = mysqli_query($conn, $sql);
+        $_SESSION['mensagem'] = "Curso Adcionado!";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,51 +23,12 @@ session_start();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minhas Vagas</title>
-    <style>
-    button[type="submit"] {
-      width: auto;
-      background-color: #007BFF;
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button[type="submit"]:hover {
-      background-color: #45a049;
-    }
-</style>
+    <title>Document</title>
 </head>
 
+
 <body>
-    <?php
-    $usuarioId = $_POST['usuarioId'];
-    $vagaId = $_POST['vagaId'];
-    $dataAtual = date_create()->format('Y-m-d');
-
-    $sqlEmpresa = "select Empresa.ID as Empresa from Vaga inner join Empresa on Vaga.EmpresaID = Empresa.ID where Vaga.ID = ".$vagaId.";";
-    $resultEmpresa = mysqli_query($conn, $sqlEmpresa);
-    $rowEmpresa = mysqli_fetch_array($resultEmpresa);
-
-    $sql = "INSERT INTO solicitacoes (status,aluno_id, vaga_id, empresa_id, data_solicitacao) VALUES ('pendente',$usuarioId, $vagaId, ".$rowEmpresa["Empresa"].", '$dataAtual')";
-    if (mysqli_query($conn, $sql)) {
-        echo "Candidatura realizada com sucesso!<br>";
-        echo "<a href='candidaturas.php'><button type='submit'>Ver minhas candidaturas</button></a>";
-    } else {
-        echo "Erro: " . $sql . "<br>" . mysqli_error($conn);
-    }
-    ?>
-
-
-
-    </ul>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
-<style>
+    <style>
         body {
             font-family: Arial, sans-serif;
         }
@@ -126,5 +99,34 @@ session_start();
             background-color: #002c5b;
         }
     </style>
+
+
+    <body>
+        <br>
+        <h2>CURSOS EXISTENTES</h2>
+        <ul class="list-group">
+
+            <ul class="list-group">
+                <?php
+                $sql = "SELECT * from Curso";
+                $result = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<li class="list-group-item">';
+                    echo '<div>' . "<h5>Título</h5>" . $row['Nome'] . '</div>';
+                    echo '<div>' . "<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
+                    echo '<iframe width="560" height="315" src="' . $row['Video'] . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+                    echo '</li><br><br>';
+                }
+                ?>
+            </ul>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+    </body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</body>
 
 </html>

@@ -1,8 +1,7 @@
 <?php
-session_start();
 include("conexao.php");
+session_start();
 
-// aqui vai inserir os dados do forms no bd
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
     $cnpj = $_POST["cnpj"];
@@ -10,27 +9,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha = $_POST["senha"];
     $confirmarsenha = $_POST["confirmarsenha"];
 
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
     if ($senha == $confirmarsenha) {
         $sql = "INSERT INTO Empresa (nome, cnpj, email, senha)
-        VALUES ('$nome','$cnpj', '$email','$senha')";
+        VALUES ('$nome', '$cnpj', '$email', '$senha_hash')";
 
         if ($conn->query($sql) === TRUE) {
             $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
-            echo "<script type='text/javascript'>
-                alert('Cadastro realizado com sucesso!');
-                window.location.href = 'login.php';
-              </script>";
             header('Location: login.php');
             exit();
         } else {
-            echo "Erro: " . $sql . "<br>" . $conn->error;
+            echo '<div class="alert alert-danger" role="alert">
+                    Erro: ' . $sql . '<br>' . $conn->error . '
+                  </div>';
         }
     } elseif ($senha !== $confirmarsenha) {
-        echo "<script type='text/javascript'>
-                alert('Senhas não são iguais!');
-                window.location.href = 'cadastroEmpresa.php';
-              </script>";
-        exit();
+        $_SESSION['mensagemerro'] = 'Senhas não são iguais!';
     }
 }
 
@@ -90,9 +85,14 @@ $conn->close();
             background-color: #0056b3;
         }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+    <a href="login.php"><button class="btn btn-primary">Voltar</button></a>
     <form action="cadastroEmpresa.php" method="post">
         <label for="nome">Nome da Empresa:</label>
         <input type="text" id="nome" name="nome" required><br><br>
@@ -107,7 +107,15 @@ $conn->close();
         <input type="password" id="password" name="senha" required><br><br>
 
         <label for="password">Confirma Senha:</label>
-        <input type="password" id="password" name="confirmarsenha" required><br><br>
+        <input type="password" id="confirmarsenha" name="confirmarsenha" required><br><br>
+        <?php
+        if (isset($_SESSION['mensagemerro'])) {
+            echo '<div class="alert alert-danger" role="alert">
+                  ' . $_SESSION['mensagemerro'] . '
+                </div>';
+            unset($_SESSION['mensagemerro']);
+        }
+        ?>
 
         <input type="submit" value="Cadastrar">
     </form>

@@ -40,15 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .list-group {
       display: flex;
       flex-direction: column;
-      align-items: center;  
-      
+      align-items: center;
+
     }
 
-    .list-group-item{
+    .list-group-item {
       width: 600px;
     }
 
     .content {
+      width: 600px;
       background-color: #f8f8f8;
       margin: 0 auto;
       padding: 20px;
@@ -80,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     input[type="submit"]:hover {
-      background-color: #45a049;
+      background-color: #002c5b;
     }
 
     button[type="submit"] {
@@ -95,20 +96,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     button[type="submit"]:hover {
-      background-color: #45a049;
+      background-color: #002c5b;
     }
   </style>
   <h2>CADASTRAR NOVO CURSO</h2>
 
   <?php if (isset($_SESSION['mensagem'])) {
-    echo '<script> alert("' . $_SESSION['mensagem'] . '"); window.location.href = "cursos.php";</script>';
+    echo '<div class="alert alert-success" role="alert">' . $_SESSION['mensagem'] . '
+    </div>';
     unset($_SESSION['mensagem']);
   } ?>
 
   <form class="content" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
     Título: <input type="text" name="Titulo" required>
     <br>
-    Descrição: <input type="text" name="Descricao" required>
+    Descrição   <textarea name="Descricao" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
     <br>
     Link do vídeo: <input type="text" name="Url" required>
     <br>
@@ -126,22 +128,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
           echo '<li class="list-group-item">';
-          echo '<div>' ."<h5>Título</h5>". $row['Nome'] . '</div>';
-          echo '<div>'."<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
-          echo '<iframe width="560" height="315" src="' . $row['Video'].'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+          echo '<div>' . "<h5>Título</h5>" . $row['Nome'] . '</div>';
+          echo '<div>' . "<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
+          echo '<iframe width="560" height="315" src="' . $row['Video'] . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
           echo '<form method="POST" action="excluir_curso.php" style="display: inline; margin-right: 10px;">';
           echo '<input type="hidden" name="curso_id" value="' . $row['ID'] . '">';
           echo '<button type="submit">Excluir</button>';
           echo '</form>';
           echo '<form method="POST" action="editar_curso.php" style="display: inline; margin-right: 10px;">';
-          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
+          echo '<input type="hidden" name="curso_id" value="' . $row['ID'] . '">';
           echo '<input type="hidden" name="Nome" value="' . $row['Nome'] . '">';
           echo '<input type="hidden" name="Descricao" value="' . $row['Descricao'] . '">';
+          echo '<input type="hidden" name="Video" value="' . $row['Video'] . '">';
           echo '<button type="submit">Editar</button>';
           echo '</form>';
           echo '<form method="POST" action="solicitacoes.php" style="display: inline; margin-right: 10px;">';
-          echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
-          echo '<button type="submit">Ver Solicitações</button>';
+          echo '<input type="hidden" name="curso_id" value="' . $row['ID'] . '">';
+          //echo '<button type="submit">Ver Solicitações</button>';
           echo '</form>';
           echo '</li>';
         }

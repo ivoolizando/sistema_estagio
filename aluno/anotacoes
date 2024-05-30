@@ -1,0 +1,35 @@
+<?php 
+
+
+<!-- bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<style>
+  
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+   <script>
+?>
+/* _______________________________________ */
+
+
+/* código que vai de baixo do confirmar senha */
+<?php
+    if (isset($_SESSION['mensagemerro'])) {
+      echo '<div class="alert alert-danger" role="alert">
+                  ' . $_SESSION['mensagemerro'] . '
+                </div>';
+      unset($_SESSION['mensagemerro']);
+    }
+    ?>
+    /* ___________________________________________________ */
+
+    /* código que vai de baixo do 
+    if ($conn->query($sql) === TRUE) {
+         */
+      $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
+      header('Location: login.php');
+      exit();
+      /* ___________________________________________________ */
