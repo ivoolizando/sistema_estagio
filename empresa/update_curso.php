@@ -4,13 +4,11 @@ include("../conexao.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = mysqli_real_escape_string($conn, $_POST['Titulo']);
-    $descricao = mysqli_real_escape_string($conn, $_POST['Descricao']);
     $curso_id = isset($_POST['curso_id']) ? mysqli_real_escape_string($conn, $_POST['curso_id']) : null;
-    $video = mysqli_real_escape_string($conn, $_POST['Video']);
 
     
     if ($curso_id) {
-        $sql = "UPDATE Curso SET Nome = '$titulo', Descricao = '$descricao', Video = '$video' WHERE ID = '$curso_id';";
+        $sql = "UPDATE Curso SET Nome = '$titulo' WHERE ID = '$curso_id';";
         if (mysqli_query($conn, $sql)) {
             $_SESSION['mensagem'] = "Curso atualizado com sucesso!";
             header('Location: cursos.php');
@@ -23,8 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($result);
         $titulo = $row['Titulo'];
-        $descricao = $row['Descricao'];
-        $video = $row['Video'];
     }
 }
 ?>

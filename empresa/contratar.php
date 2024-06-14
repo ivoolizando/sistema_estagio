@@ -4,22 +4,22 @@ include("../conexao.php");
 include("componentes/header.php");
 $alunoId = $_POST['aluno_id'];
 $vaga_id = $_POST['vaga_id'];
+$curso = $_POST['curso_id'];
 $solicitacao_id = $_POST['solicitacao_id'];
 $empresa = $_SESSION['id'];
 $data_atual = date_create()->format('Y-m-d');
-
 $sql = "SELECT 
 Vaga.Titulo as Vaga_titulo,
 Vaga.Turno as Vaga_turno,
 Vaga.Setor as Vaga_setor,
+Vaga.Curso as Curso,
 Vaga.DataPeriodoInicio as Vaga_periodo_inicio, 
 Vaga.DataPeriodoFinal as Vaga_periodo_final,
 Vaga.DataEstagioInicio as Estagio_inicio,
 Vaga.DataEstagioFinal as Estagio_final, 
 Vaga.ValorBolsa as Valor, 
 Vaga.Descricao as Descricao,
-Aluno.ID as Aluno, 
-Vaga.Curso as Curso
+Aluno.ID as Aluno
 FROM Vaga inner join Aluno WHERE Vaga.ID = " . $vaga_id . ";";
 $result = mysqli_query($conn, $sql);
 
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contratacao'])) {
         echo "Erro: " . $sqlInsert . "<br>" . $conn->error;
     }
 }
-$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +99,15 @@ $conn->close();
         <label> Título:</label>
         <input type="text" value="<?php echo $titulo ?>">
         <label>Curso:</label>
-        <input type="text" value="<?php echo $curso ?>">
+        <select class="form-control" disabled name="curso_id">
+            <?php
+            $sqlcurso = "SELECT ID, Nome from Curso where ID = '$curso'";
+            $resultcurso = mysqli_query($conn, $sqlcurso);
+            $rowcurso = mysqli_fetch_assoc($resultcurso);
+            echo '<option selected value="' . $rowcurso['ID'] . '">' . $rowcurso['Nome'] . '</option>';
+
+            ?>
+        </select>
         <label>Turno:</label>
         <input type="text" disabled value="<?php echo $turno ?>">
         <label>Setor:</label>
@@ -123,6 +131,7 @@ $conn->close();
 
         <input type="hidden" name="aluno_id" value="<?php echo $alunoId ?>">
         <input type="hidden" name="vaga_id" value="<?php echo $vaga_id ?>">
+        <input type="hidden" name="curso_id" value="<?php echo $curso ?>">
         <input type="hidden" name="solicitacao_id" value="<?php echo $solicitacao_id ?>">
 
         <input --bs-primary type="submit" name="contratacao">
@@ -175,3 +184,6 @@ $conn->close();
         padding: 20px 0px;
     }
 </style>
+<?php
+$conn->close();
+?>

@@ -10,8 +10,8 @@ if (isset($_SESSION['filtroInicio']) && isset($_SESSION['filtroFim'])) {
 
     // Gráfico 3 com dados filtrados
 
-    $sql6 = "SELECT DISTINCT Curso, COUNT(*) AS Quantidade
-    FROM Contratado WHERE
+    $sql6 = "SELECT DISTINCT Curso.Nome as Curso, COUNT(*) AS Quantidade
+    FROM Contratado inner join Curso on Contratado.Curso = Curso.ID WHERE
     DataContratacao >= '$filtroInicio' AND
     DataContratacao <= '$filtroFim' AND
     EmpresaID = ".$_SESSION["id"]."
@@ -22,8 +22,8 @@ if (isset($_SESSION['filtroInicio']) && isset($_SESSION['filtroFim'])) {
 
    // Gráfico 3 sem filtros
 
-   $sql6 = "SELECT DISTINCT Curso, COUNT(*) AS Quantidade
-   FROM Contratado WHERE EmpresaID = ".$_SESSION["id"]."
+   $sql6 = "SELECT DISTINCT Curso.Nome as Curso, COUNT(*) AS Quantidade
+   FROM Contratado inner join Curso on Contratado.Curso = Curso.ID WHERE EmpresaID = ".$_SESSION["id"]."
    GROUP BY Curso;";
    $result6 = mysqli_query($conn, $sql6);
     

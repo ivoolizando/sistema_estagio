@@ -74,7 +74,27 @@
           <input type="text" name="titulo">
 
           <label for="">Curso:</label>
-          <input type="text" name="curso">
+
+          <select class="form-control" name="curso">
+              <?php
+                $count = 0;
+                $sql = "SELECT ID, Nome from Curso;";
+                $result = mysqli_query($conn, $sql);
+                $rows = mysqli_num_rows($result);
+                if ($rows > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        if ($count == 0) {
+                            $count += 1;
+                            echo '<option selected value="' . $row['ID'] . '">' . $row['Nome'] . '</option>';
+                        } else {
+                            echo '<option value="' . $row['ID'] . '">' . $row['Nome'] . '</option>';
+                        }
+                    }
+                } else {
+                    echo '<option selected value ="0">Nenhum curso disponível.</option> ';
+                }
+                ?>
+          </select>
 
           <label for="">Setor:</label>
           <input type="text" name="setor">
@@ -110,20 +130,20 @@
   </body>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    
+
   </html>
   <style>
       textarea {
-        height: 200px;
-    }
-    
+          height: 200px;
+      }
+
       h2 {
           margin: auto;
       }
-      
+
       select {
-        margin-bottom: 20px;
-        width: 20%;
+          margin-bottom: 20px;
+          width: 20%;
       }
 
       body {

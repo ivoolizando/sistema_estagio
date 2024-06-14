@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <a href="vagas.php" class="btn btn-primary">Voltar</a>
-    <h2>EDITAR VAGA</h2>
+    <h2>Editar Vaga</h2>
 
     <form class="content" method="post" action="update.php">
 
@@ -51,13 +51,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="">Turno:</label>
         <select class="form-select form-control" name="Turno" required>
-              <option value="Manhã" <?php if($Turno=='Manhã'){ echo 'selected';}?> >Manhã</option>
-              <option value="Tarde" <?php if($Turno=='Tarde'){ echo 'selected';}?> >Tarde</option>
-              <option value="Noite" <?php if($Turno=='Noite'){ echo 'selected';}?> >Noite</option>
-          </select><br>
+            <option value="Manhã" <?php if ($Turno == 'Manhã') {
+                                        echo 'selected';
+                                    } ?>>Manhã</option>
+            <option value="Tarde" <?php if ($Turno == 'Tarde') {
+                                        echo 'selected';
+                                    } ?>>Tarde</option>
+            <option value="Noite" <?php if ($Turno == 'Noite') {
+                                        echo 'selected';
+                                    } ?>>Noite</option>
+        </select><br>
 
         <label for="">Curso:</label>
-        <input type="text" name="Curso" value="<?php echo  $Curso; ?>" required>
+        <select class="form-control" name="Curso">
+            <?php
+            $sql = "SELECT ID, Nome from Curso;";
+            $result = mysqli_query($conn, $sql);
+            $rows = mysqli_num_rows($result);
+            if ($rows > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    if ($row['ID'] == $Curso) {
+                        echo '<option selected value="' . $row['ID'] . '">' . $row['Nome'] . '</option>';
+                    } else {
+                        echo '<option value="' . $row['ID'] . '">' . $row['Nome'] . '</option>';
+                    }
+                }
+            } else {
+                echo '<option selected value ="0">Nenhum curso disponível.</option> ';
+            }
+            ?>
+        </select>
 
         <label for="">Setor:</label>
         <input type="text" name="Setor" value="<?php echo  $Setor; ?>" required>

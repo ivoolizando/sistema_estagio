@@ -42,7 +42,7 @@ include("componentes/header.php");
         Empresa.ID,
         Contratado.ID as ContratoID,
         Vaga.Titulo as VagaTitulo,
-        Contratado.Curso as Curso,
+        Curso.Nome as Curso,
         Aluno.Nome as AlunoNome,
         Contratado.Setor as Setor,
         Contratado.Turno as Turno,
@@ -55,6 +55,7 @@ include("componentes/header.php");
         INNER JOIN Empresa on Contratado.EmpresaID = Empresa.ID
         INNER JOIN Aluno on Contratado.AlunoID = Aluno.ID
         INNER JOIN Vaga on Contratado.VagaID = Vaga.ID
+        INNER JOIN Curso on Contratado.Curso = Curso.ID
         WHERE Empresa.ID = " . $_SESSION["id"] . ";";
         $result = mysqli_query($conn, $sql);
         $rows = mysqli_num_rows($result);
