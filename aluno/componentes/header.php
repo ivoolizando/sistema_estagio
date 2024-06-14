@@ -102,8 +102,8 @@ if (isset($_POST['logout'])) {
                     <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'vagas.php')) echo 'active'; ?>">
                         <a class="nav-link" href="vagas.php">Vagas</a>
                     </li>
-                    <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'cursos.php')) echo 'active'; ?>">
-                        <a class="nav-link" href="cursos.php">Cursos</a>
+                    <!-- <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'cursos.php')) echo 'active'; ?>">
+                        <a class="nav-link" href="cursos.php">Cursos</a> -->
                     </li>
                     <li class="nav-item <?php if (strpos($_SERVER['PHP_SELF'], 'candidaturas.php')) echo 'active'; ?>">
                         <a class="nav-link" href="candidaturas.php">Minhas Vagas</a>

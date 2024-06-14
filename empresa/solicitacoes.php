@@ -35,7 +35,7 @@ include("componentes/header.php");
             $vagaId = $_POST['vaga_id'];
         }
         $usuario = $_SESSION['id'];
-        $sql = "SELECT solicitacoes.id as solicitacao_id , Aluno.ID as AlunoID, Aluno.Nome as Aluno, Aluno.Email as EmailAluno, Aluno.Curriculo as Curriculo, Vaga.ID as Vaga, Vaga.Titulo as VagaTitulo, solicitacoes.status as status 
+        $sql = "SELECT solicitacoes.id as solicitacao_id , Aluno.ID as AlunoID, Aluno.Nome as Aluno, Aluno.Email as EmailAluno, Aluno.Curriculo as Curriculo, Vaga.ID as Vaga, Vaga.Titulo as VagaTitulo, Vaga.Curso as Curso, solicitacoes.status as status
         FROM solicitacoes 
         INNER JOIN Aluno ON solicitacoes.aluno_id = Aluno.ID 
         INNER JOIN Vaga ON solicitacoes.vaga_id = Vaga.ID
@@ -57,6 +57,7 @@ include("componentes/header.php");
                 echo '<input type="hidden" name="aluno" value="' . $row['Aluno'] . '">';
                 echo '<input type="hidden" name="aluno_id" value="' . $row['AlunoID'] . '">';
                 echo '<input type="hidden" name="vaga_id" value="' . $row['Vaga'] . '">';
+                echo '<input type="hidden" name="curso_id" value="' . $row['Curso'] . '">';
                 echo '<input type="hidden" name="solicitacao_id" value="' . $row['solicitacao_id'] . '">';
                 echo '<input type="submit" name="dados" class="btn btn-primary float-right" value="Contratar">';
                 echo '</form>';

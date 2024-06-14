@@ -97,9 +97,9 @@ include("componentes/header.php");
         }
 
         $usuario = $_SESSION['id'];
-        $sql = "SELECT *
-        FROM Vaga
-        WHERE VagaStatus = true and ID NOT IN (SELECT vaga_id FROM solicitacoes);";
+        $sql = "SELECT Vaga.ID as ID, Vaga.Titulo as Titulo, Vaga.Descricao as Descricao, Curso.Nome as Curso, Vaga.Turno as Turno, Vaga.ValorBolsa as ValorBolsa, Vaga.DataPeriodoInicio as DataPeriodoInicio, Vaga.DataPeriodoFinal as DataPeriodoFinal
+        FROM Vaga inner join Curso on Vaga.Curso = Curso.ID
+        WHERE VagaStatus = true and Vaga.ID NOT IN (SELECT vaga_id FROM solicitacoes);";
         $result = mysqli_query($conn, $sql);
         $rows = mysqli_num_rows($result);
         if ($rows > 0) {

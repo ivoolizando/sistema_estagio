@@ -55,7 +55,7 @@ include("componentes/header.php");
 
       <ul class="list-group">
         <?php
-        $sql = "SELECT * from Vaga where VagaStatus = true and EmpresaID = " . $_SESSION["id"] . ";";
+        $sql = "SELECT Vaga.Titulo as Titulo, Vaga.Descricao as Descricao, Vaga.ID as ID, Curso.Nome as Curso from Vaga inner join Curso on Vaga.Curso = Curso.ID where VagaStatus = true and EmpresaID = " . $_SESSION["id"] . ";";
         $result = mysqli_query($conn, $sql);
         $rows = mysqli_num_rows($result);
 
@@ -64,6 +64,7 @@ include("componentes/header.php");
             echo '<li class="list-group-item" >';
             echo '<div>' . "<h5>Título</h5>" . $row['Titulo'] . '</div>';
             echo '<div>' . "<br><h5>Descrição</h5>" . $row['Descricao'] . '</div>';
+            echo '<div>' . "<br><h5>Curso</h5>" . $row['Curso'] . '</div>';
             echo '<div class="botao">';
             echo '<form method="POST" action="editar_vaga_form.php" style="">';
             echo '<input type="hidden" name="vaga_id" value="' . $row['ID'] . '">';
